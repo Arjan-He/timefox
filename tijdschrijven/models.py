@@ -26,6 +26,9 @@ class Persoon(models.Model):
 
     Projecten = models.ManyToManyField('Project', through='Abonnement')
 
+    class Meta:
+        verbose_name_plural = "personen"
+
     def __str__(self):
         """String for representing the Model object."""
         return self.Naam
@@ -84,9 +87,15 @@ class Abonnement(models.Model):
     OriginalObjectID = models.IntegerField()
     AanmaakDatum = models.DateField(auto_now_add=True)
     Zichtbaarheid = models.BooleanField()
+    
+    class Meta:
+        verbose_name_plural = "abonnementen"
 
 class GeschrevenTijd(models.Model):
     AbonnementID = models.ForeignKey('Abonnement', on_delete=models.CASCADE)
     AanmaakDatum = models.DateField(auto_now_add=True)
     Datum = models.DateField()
     TijdsDuur = models.DecimalField(max_digits=5, decimal_places=2)
+
+    class Meta:
+        verbose_name_plural = "geschreven tijd"
