@@ -1,37 +1,29 @@
 from django.db import models
+from django.contrib.auth.models import User
 
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 class Persoon(models.Model):
-
-    Naam = models.CharField(max_length=64)
-    EmailAdres = models.CharField(max_length=128)
-    Aanmaakdatum = models.DateField(auto_now_add=True)
-    MutatieDatum = models.DateField(auto_now=True)
-    #GeldigVan = models.DateField()
-    #GeldigTot = models.DateField()
-    Wachtwoord = models.BinaryField()
-
-    ROL_OMS = (
-        (1, 'Medewerker'),
-        (2, 'Leidinggevende'),
-        (3, 'Beheerder'),
-    )
-
-    rol = models.SmallIntegerField(
-        choices=ROL_OMS,
-        blank=True,
-        default=1,
-        help_text='Rolomschrijving',
-    )
-
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
     Projecten = models.ManyToManyField('Project', through='Abonnement')
 
     class Meta:
         verbose_name_plural = "personen"
 
-    def __str__(self):
-        """String for representing the Model object."""
-        return self.Naam
+    # def __str__(self):
+    #     """String for representing the Model object."""
+    #     return self.username
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 class AccountSetting(models.Model):
     PersoonID = models.ForeignKey('Persoon', on_delete=models.CASCADE)
