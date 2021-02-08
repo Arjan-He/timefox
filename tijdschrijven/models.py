@@ -30,7 +30,7 @@ def save_user_persoon(sender, instance, **kwargs):
 
 
 class AccountSetting(models.Model):
-    User = models.ForeignKey('Persoon', on_delete=models.CASCADE)
+    PersoonID = models.ForeignKey('Persoon', on_delete=models.CASCADE)
 
     ACCOOUNTITEMS = (
         (1, 'Dienstverband'),
@@ -57,13 +57,13 @@ class Project(models.Model):
     ProjectTemplateID = models.ForeignKey('ProjectTemplate', on_delete=models.RESTRICT)
     Omschrijving = models.CharField(max_length=256, null=True)
     ParentID = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='subproject')
-    AanmakerID = models.ForeignKey('Persoon', null=True, on_delete=models.SET_NULL)
+    AanmakerID = models.IntegerField(null=True)
     AanmaakDatum = models.DateField(auto_now_add=True)
     MutatieDatum = models.DateField(auto_now=True)
     GeldigVan = models.DateField()
     GeldigTot = models.DateField()
     Actief = models.BooleanField()
-    Personen = models.ManyToManyField(User, through='Abonnement')
+    Personen = models.ManyToManyField('Persoon', through='Abonnement')
 
     def __str__(self):
         """String for representing the Model object."""
