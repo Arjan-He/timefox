@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.conf import settings #https://learndjango.com/tutorials/django-best-practices-referencing-user-model
 
 class Persoon(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, default=None)
     Projecten = models.ManyToManyField('Project', through='Abonnement')
 
     class Meta:
@@ -19,18 +19,18 @@ class Persoon(models.Model):
 
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_user_persoon(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        Persoon.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+def save_user_persoon(sender, instance, **kwargs):
+    instance.persoon.save()
 
 
 class AccountSetting(models.Model):
-    PersoonID = models.ForeignKey('Persoon', on_delete=models.CASCADE)
+    User = models.ForeignKey(User, on_delete=models.CASCADE)
 
     ACCOOUNTITEMS = (
         (1, 'Dienstverband'),
@@ -42,7 +42,7 @@ class AccountSetting(models.Model):
         default=1,
         help_text='Acoount item',
     )
-    Setting = models.IntegerField
+    Setting = models.IntegerField(null=True)
     AanmaakDatum = models.DateField(auto_now_add=True)
     GeldigVan = models.DateField()
     GeldigTot = models.DateField()   
@@ -56,13 +56,14 @@ class Project(models.Model):
     Titel = models.CharField(max_length=128, null=True)
     ProjectTemplateID = models.ForeignKey('ProjectTemplate', on_delete=models.RESTRICT)
     Omschrijving = models.CharField(max_length=256, null=True)
-    ParentID = models.ForeignKey('self',on_delete=models.CASCADE, null=True, related_name='subproject')
+    ParentID = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='subproject')
+    AanmakerID = models.ForeignKey(User, null=True)
     AanmaakDatum = models.DateField(auto_now_add=True)
     MutatieDatum = models.DateField(auto_now=True)
     GeldigVan = models.DateField()
     GeldigTot = models.DateField()
     Actief = models.BooleanField()
-    Personen = models.ManyToManyField('Persoon', through='Abonnement')
+    Personen = models.ManyToManyField(User, through='Abonnement')
 
     def __str__(self):
         """String for representing the Model object."""
