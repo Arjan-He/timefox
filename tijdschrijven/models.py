@@ -53,7 +53,7 @@ class AccountSetting(models.Model):
 
 
 class Project(models.Model):
-    Titel = models.CharField(max_length=128, null=True)
+    Titel = models.CharField(max_length=88, null=True)
     ProjectTemplateID = models.ForeignKey('ProjectTemplate', on_delete=models.RESTRICT)
     Omschrijving = models.CharField(max_length=256, null=True)
     ParentID = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='subproject')
@@ -68,7 +68,8 @@ class Project(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return self.Titel
-
+    class Meta:
+        verbose_name_plural = "projecten"
 
 class ProjectTemplate(models.Model):
     Titel = models.CharField(max_length=128)
