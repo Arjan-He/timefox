@@ -30,7 +30,7 @@ def save_user_persoon(sender, instance, **kwargs):
 
 
 class AccountSetting(models.Model):
-    User = models.ForeignKey(User, on_delete=models.CASCADE)
+    User = models.ForeignKey('Persoon', on_delete=models.CASCADE)
 
     ACCOOUNTITEMS = (
         (1, 'Dienstverband'),
@@ -57,7 +57,7 @@ class Project(models.Model):
     ProjectTemplateID = models.ForeignKey('ProjectTemplate', on_delete=models.RESTRICT)
     Omschrijving = models.CharField(max_length=256, null=True)
     ParentID = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='subproject')
-    AanmakerID = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    AanmakerID = models.ForeignKey('Persoon', null=True, on_delete=models.SET_NULL)
     AanmaakDatum = models.DateField(auto_now_add=True)
     MutatieDatum = models.DateField(auto_now=True)
     GeldigVan = models.DateField()
@@ -82,7 +82,7 @@ class ProjectTemplate(models.Model):
 
 class Abonnement(models.Model):
     ProjectID = models.ForeignKey('Project', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    PersoonID = models.ForeignKey('Persoon', on_delete=models.CASCADE) 
     OriginalObjectID = models.IntegerField()
     AanmaakDatum = models.DateField(auto_now_add=True)
     Zichtbaarheid = models.BooleanField()
