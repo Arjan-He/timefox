@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings #https://learndjango.com/tutorials/django-best-practices-referencing-user-model
 
+
 class Persoon(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, default=None)
     Projecten = models.ManyToManyField('Project', through='Abonnement')
