@@ -36,7 +36,7 @@ class Persoon(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return self.username
+        return self.user.username
 
 
 # @receiver(post_save, sender=User)
