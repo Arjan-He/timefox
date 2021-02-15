@@ -56,6 +56,7 @@ class Abonnement(models.Model):
     PersoonID = models.ForeignKey(Persoon, on_delete=models.CASCADE) 
     OriginalObjectID = models.IntegerField()
     AanmaakDatum = models.DateField(auto_now_add=True)
+    Actief = models.BooleanField(default=True)
     Zichtbaarheid = models.BooleanField()
 
     class Meta:
