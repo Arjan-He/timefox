@@ -9,9 +9,9 @@ from django.conf import settings #https://learndjango.com/tutorials/django-best-
 
 class Project(models.Model):
     Titel = models.CharField(max_length=88, null=True)
-    ProjectTemplateID = models.ForeignKey('ProjectTemplate', on_delete=models.RESTRICT)
+    ProjectTemplateID = models.ForeignKey('ProjectTemplate', null=True, blank=True, on_delete=models.RESTRICT)
     Omschrijving = models.CharField(max_length=256, null=True)
-    ParentID = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='subproject')
+    ParentID = models.ForeignKey('Project', on_delete=models.CASCADE, null=True, blank=True, related_name='subproject')
     AanmakerID = models.IntegerField(null=True)
     AanmaakDatum = models.DateField(auto_now_add=True)
     MutatieDatum = models.DateField(auto_now=True)
