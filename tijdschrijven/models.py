@@ -8,8 +8,8 @@ from django.conf import settings #https://learndjango.com/tutorials/django-best-
 
 
 class Project(models.Model):
-    Titel = models.CharField(max_length=88, blank=True, null=True)
-    ProjectTemplateID = models.ForeignKey('ProjectTemplate', on_delete=models.RESTRICT)
+    Titel = models.CharField(max_length=88, null=True)
+    ProjectTemplateID = models.ForeignKey('ProjectTemplate', on_delete=models.RESTRICT, blank=True)
     Omschrijving = models.CharField(max_length=256, null=True)
     ParentID = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subproject')
     AanmakerID = models.IntegerField(null=True)
