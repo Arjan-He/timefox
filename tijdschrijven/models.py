@@ -29,6 +29,7 @@ class Project(models.Model):
 
 class Persoon(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    Dienstverband = models.IntegerField(default=0)
     Projecten = models.ManyToManyField(Project, through='Abonnement')
 
     class Meta:
@@ -61,27 +62,27 @@ class Abonnement(models.Model):
         verbose_name_plural = "abonnementen"
 
 
-class AccountSetting(models.Model):
-    PersoonID = models.ForeignKey(User, on_delete=models.CASCADE)
+# class AccountSetting(models.Model):
+#     PersoonID = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    ACCOOUNTITEMS = (
-        (1, 'Dienstverband'),
-    )
+#     ACCOOUNTITEMS = (
+#         (1, 'Dienstverband'),
+#     )
 
-    AccountItem = models.SmallIntegerField(
-        choices=ACCOOUNTITEMS,
-        blank=True,
-        default=1,
-        help_text='Acoount item',
-    )
-    Setting = models.IntegerField(null=True)
-    AanmaakDatum = models.DateField(auto_now_add=True)
-    GeldigVan = models.DateField()
-    GeldigTot = models.DateField()   
+#     AccountItem = models.SmallIntegerField(
+#         choices=ACCOOUNTITEMS,
+#         blank=True,
+#         default=1,
+#         help_text='Acoount item',
+#     )
+#     Setting = models.IntegerField(null=True)
+#     AanmaakDatum = models.DateField(auto_now_add=True)
+#     GeldigVan = models.DateField()
+#     GeldigTot = models.DateField()   
 
-    def __str__(self):
-        """String for representing the Model object."""
-        return self.AccountItem
+#     def __str__(self):
+#         """String for representing the Model object."""
+#         return self.AccountItem
 
 
 class ProjectTemplate(models.Model):
