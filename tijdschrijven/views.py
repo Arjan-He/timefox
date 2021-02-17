@@ -10,17 +10,27 @@ def index(request):
 
     return render(request, 'index.html')
 
+def projecten(request):
+
+   projecten = Project.objects.all()
+
+   context = {
+       'projecten': projecten,
+   }
+
+   # Render the HTML template index.html with the data in the context variable
+   return render(request, 'projecten.html', context=context)
+
 class ProjectCreate(CreateView):
     model = Project
     fields=['Titel', 'ProjectTemplateID', 'Omschrijving', 'ParentID', 'AanmakerID', 'GeldigVan', 'GeldigTot', 'Actief']
-    #initial = {'date_of_death': '11/06/2020'}
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('projecten')
 
 class ProjectUpdate(UpdateView):
     model = Project
     fields=['Titel', 'ProjectTemplateID', 'Omschrijving', 'ParentID', 'AanmakerID', 'GeldigVan', 'GeldigTot', 'Actief']
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('projecten')
 
 class ProjectDelete(DeleteView):
     model = Project
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('projecten')
