@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+  {% block title %}<title>Projecten</title>{% endblock %}
+</head>
+<body>
+  {% block sidebar %}
+  {% endblock %}
+  {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+</body>
+</html>
