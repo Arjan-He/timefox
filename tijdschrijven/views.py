@@ -1,16 +1,36 @@
 from django.shortcuts import render
+from tijdschrijven.models import Project
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 # Create your views here.
-from tijdschrijven .models import Persoon, Project, Abonnement, ProjectTemplate, GeschrevenTijd
 
 def index(request):
+    """View function for home page of site."""
 
-    num_projects = Project.objects.all().count()
-    #num_abonnement = Abonnement.objects.filter().count()
+    return render(request, 'index.html')
 
-    context = {
-        'num_projects': num_projects,
-    }
+def projecten(request):
 
-    # Render the HTML template index.html with the data in the context variable
-    return render(request, 'index.html', context=context)
+   projecten = Project.objects.all()
+
+   context = {
+       'projecten': projecten,
+   }
+
+   # Render the HTML template index.html with the data in the context variable
+   return render(request, 'projecten.html', context=context)
+
+class ProjectCreate(CreateView):
+    model = Project
+    fields=['Titel', 'ProjectTemplateID', 'Omschrijving', 'ParentID', 'AanmakerID', 'GeldigVan', 'GeldigTot', 'Actief']
+    success_url = reverse_lazy('projecten')
+
+class ProjectUpdate(UpdateView):
+    model = Project
+    fields=['Titel', 'ProjectTemplateID', 'Omschrijving', 'ParentID', 'AanmakerID', 'GeldigVan', 'GeldigTot', 'Actief']
+    success_url = reverse_lazy('projecten')
+
+class ProjectDelete(DeleteView):
+    model = Project
+    success_url = reverse_lazy('projecten')
