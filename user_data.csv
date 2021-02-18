@@ -1,0 +1,7 @@
+﻿User,First,Last,Password,Active,Superuser,Staff
+superuser,Super,User,Timefox1,True,True,False
+gebruiker1,Pietje,Puk,Timefox1,True,False,False
+gebruiker2,Jan,Met de Pet,Timefox1,True,False,False
+gebruiker3,Frits,Fritsen,Timefox1,True,False,False
+gebruiker4,Bassie,van Adriaan,Timefox1,True,False,False
+staff,Staf,Lid,Timefox1,True,False,True
