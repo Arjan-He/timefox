@@ -28,15 +28,13 @@ class Command(BaseCommand):
             project.save()
         print("Projecten toegevoegd.")
         
-        """ Dit stuk werkt nog niet. Geeft een KeyError op users
+       
         print("Toevoegen gebruikers....")
         
         for row2 in DictReader(open('./user_data.csv')):
-            gebruiker = User()
-            gebruiker.username = row2['User']
+            gebruiker = User.objects.create_user(row2['Medewerker'], password=row2['Password'])
             gebruiker.first_name = row2['First']
             gebruiker.last_name = row2['Last']
-            gebruiker.password = row2['Password']
             gebruiker.is_active = row2['Active']
             gebruiker.is_superuser= row2['Superuser']
             gebruiker.is_staff= row2['Staff']
@@ -44,4 +42,4 @@ class Command(BaseCommand):
         print("Gebruikers toegevoegd.")
         print("Het script is volledig uitgevoerd.")
         
-        """    
+        
