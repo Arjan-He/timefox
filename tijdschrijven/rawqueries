@@ -1,0 +1,31 @@
+with subprojecten as (
+    Select id, Titel, ParentID, 0 as relatieveDiepte from Project
+    union all
+    Select id, Titel, ParentID, s.relatieveDiepte -1 from Project p
+    inner join subprojecten subprojecten s
+    on p.ParentID = s.id
+
+)
+
+select * from subprojecten
+
+
+
+def path_to_root_project(project_id):
+    query = '''
+    WITH RECURSIVE parents AS (
+        SELECT project.*, 0 AS relative_depth
+        FROM project
+        WHERE id = %s
+
+        UNION ALL
+
+        SELECT project.*, parents.relative_depth + 1
+        FROM project,parents
+        WHERE project.id = parents.parent_id
+    )
+    SELECT id, Titel, ParentID, relative_depth
+    FROM parents
+    ORDER BY relative_depth;
+    '''
+    return Category.objects.raw(query, [category_id])

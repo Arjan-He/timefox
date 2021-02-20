@@ -21,7 +21,26 @@ class Project(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return self.Titel + " - " + str(self.ParentID)
+        return self.Titel
+
+    def geef_project_tree(project_id):
+        query = '''
+        WITH RECURSIVE parents AS (
+            SELECT Project.*, 0 AS relative_depth
+            FROM Project
+            WHERE id = %s
+
+            UNION ALL
+
+            SELECT project.*, parents.relative_depth + 1
+            FROM project,parents
+            WHERE project.id = parents.parent_id
+        )
+        SELECT id, Titel, ParentID, relative_depth
+        FROM parents
+        ORDER BY relative_depth;
+        '''
+        return Project.objects.raw(query, [project_id])
 
     class Meta:
         verbose_name_plural = "projecten"
@@ -102,3 +121,5 @@ class GeschrevenTijd(models.Model):
 
     class Meta:
         verbose_name_plural = "geschreven tijd"
+
+
