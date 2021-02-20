@@ -21,7 +21,8 @@ class Project(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return self.Titel
+        return self.Titel + " - " + str(self.ParentID)
+
     class Meta:
         verbose_name_plural = "projecten"
 
