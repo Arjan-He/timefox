@@ -27,7 +27,7 @@ datamodel hier nog uitwerken
 Zie ook de file **requirements.txt**. Deze kun je ook uitvoeren via PIP. `pip install -r requirements.txt`
 
 Met het uitvoeren van het script **load_model_data.py** kan de database initieel worden gevuld met projecten.
-Deze kan worden aangeroep via `manage.py load_model_data.py`
+Deze kan worden aangeroep via `manage.py load_model_data` 
 
 # Beheer
 De productieserver draait met de volgende configuratie:
