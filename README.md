@@ -21,9 +21,13 @@ datamodel hier nog uitwerken
 
 # Gebruikte packages
 
-* Django (voor het framework)
+* Django 
+* Python-decouple - afscherming wachtwoorden etc
 
 Zie ook de file **requirements.txt**. Deze kun je ook uitvoeren via PIP. `pip install -r requirements.txt`
+
+Met het uitvoeren van het script **load_model_data.py** kan de database initieel worden gevuld met projecten.
+Deze kan worden aangeroep via `manage.py load_model_data.py`
 
 # Beheer
 De productieserver draait met de volgende configuratie:
