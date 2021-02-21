@@ -23,6 +23,7 @@ class Project(models.Model):
         """String for representing the Model object."""
         return self.Titel
 
+    #rawquery voor de tree
     def geef_project_tree(project_id):
         query = '''
         WITH RECURSIVE parents AS (
@@ -71,7 +72,7 @@ class Abonnement(models.Model):
     OriginalObjectID = models.IntegerField()
     AanmaakDatum = models.DateField(auto_now_add=True)
     Actief = models.BooleanField(default=True)
-    Zichtbaarheid = models.BooleanField()
+    Zichtbaarheid = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "abonnementen"

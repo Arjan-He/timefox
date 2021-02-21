@@ -7,4 +7,7 @@ urlpatterns = [
     path('project/create/', views.ProjectCreate.as_view(), name='project-create'),
     path('project/<int:pk>/update/', views.ProjectUpdate.as_view(), name='project-update'),
     path('project/<int:pk>/delete/', views.ProjectDelete.as_view(), name='project-delete'),
+    path('abonnementen', views.abonnementen, name='abonnementen'),
+    path('abonnement/create/', views.AbonnementCreate.as_view(), name='abonnement-create'),
+    path('abonnement/<int:pk>/urenSchrijven/', views.UrenSchrijven.as_view(), name='uren-schrijven'),
 ]
