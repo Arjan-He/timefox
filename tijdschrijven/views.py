@@ -2,7 +2,6 @@ from django.shortcuts import render
 from tijdschrijven.models import Project,Persoon,Abonnement
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-
 # Create your views here.
 
 def index(request):
@@ -48,5 +47,7 @@ class AbonnementCreate(CreateView):
 
 def urenschrijven(request):
     abonnementen = Abonnement.objects.all()
-    context = {'abonnementen': abonnementen,}
+    dagenperweek = ['ma','di','wo','do','vr','za','zo']
+    context = {'abonnementen': abonnementen,
+               'dagenindeweek':dagenperweek}
     return render(request,'urenschrijven.html',context=context)

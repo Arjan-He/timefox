@@ -9,13 +9,9 @@
     <thead class="thead-light">
       <tr>
         <th class="ts-projecttitel" scope="col">Project</th>
-        <th class="ts-dowtitel">ma</th>
-        <th class="ts-dowtitel">di</th>
-        <th class="ts-dowtitel">wo</th>
-        <th class="ts-dowtitel">do</th>
-        <th class="ts-dowtitel">vr</th>
-        <th class="ts-dowtitel">za</th>
-        <th class="ts-dowtitel">zo</th>
+        {% for day in dagenindeweek %}
+        <th class="ts-dowtitel">{{day}}</th>
+        {% endfor %}
         <th>totaal</th>
       </tr>
     </thead>
@@ -25,13 +21,9 @@
 
             <td scope="row">{{row.ProjectID.Titel}}</td>
 
-            <td><input class="ts-urenvak" type="text"></td>
-            <td><input class="ts-urenvak" type="text"></td>
-            <td><input class="ts-urenvak" type="text"></td>
-            <td><input class="ts-urenvak" type="text"></td>
-            <td><input class="ts-urenvak" type="text"></td>
-            <td><input class="ts-urenvak" type="text"></td>
-            <td><input class="ts-urenvak" type="text"></td>
+            {% for day in dagenindeweek %}
+            <td><input class="ts-urenvak" type="text" id="{{row.id}}-{{ forloop.counter }}" ></td>
+            {% endfor %}
             <td></td>
             
         </tr>
