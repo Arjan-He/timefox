@@ -44,3 +44,9 @@ class AbonnementCreate(CreateView):
     model = Abonnement
     fields=['PersoonID', 'ProjectID','OriginalObjectID']
     success_url = reverse_lazy('abonnementen')
+
+
+def urenschrijven(request):
+    abonnementen = Abonnement.objects.all()
+    context = {'abonnementen': abonnementen,}
+    return render(request,'urenschrijven.html',context=context)

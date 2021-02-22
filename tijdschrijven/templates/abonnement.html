@@ -18,9 +18,9 @@
     <tr>
         
     {% for abonnement in abonnementen %}
-        <th scope="row">{{abonnement.id}}</th>
-        <th>{{abonnement.PersoonID.user.first_name}}  {{abonnement.PersoonID.user.last_name}}</th>
-        <th>{{abonnement.ProjectID.Titel}}</th>
+        <td scope="row">{{abonnement.id}}</td>
+        <td>{{abonnement.PersoonID.user.first_name}}  {{abonnement.PersoonID.user.last_name}}</td>
+        <td>{{abonnement.ProjectID.Titel}}</td>
 
         <td>
             <a href="abonnement/{{abonnement.id}}/urenSchrijven/">

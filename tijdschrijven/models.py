@@ -123,4 +123,3 @@ class GeschrevenTijd(models.Model):
     class Meta:
         verbose_name_plural = "geschreven tijd"
 
-
