@@ -4,7 +4,8 @@
 
 <h1>Tijdschrijven</h1>
 
-<form>
+<form method="POST" action="{% url 'urenschrijven' %}">
+  {% csrf_token %}
 <table class="table">
     <thead class="thead-light">
       <tr>
@@ -18,7 +19,7 @@
     <tbody>
         {% for row in abonnementen %}
         <tr>
-
+            
             <td scope="row">{{row.ProjectID.Titel}}</td>
 
             {% for day in dagenindeweek %}
@@ -31,7 +32,8 @@
 
     </tbody>
     </table>
-    <button type="button" class="btn btn-success">Opslaan</button>
+    <input type='text' id='testvak' value='{{ test}}'>
+    <input type="submit" value="Submit">
 
 </form>
 {% endblock %}
