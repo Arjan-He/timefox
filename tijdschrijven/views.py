@@ -51,16 +51,10 @@ def urenschrijven(request):
     if request.method == 'POST':
     
         form = tijdschrijfForm(request.POST)
-        
-        test = form['testvak']
+
         #if form.is_valid():
 
-    else:
-        test=1
-
     context = {'abonnementen': Abonnement.objects.all(),
-               'dagenindeweek':['ma','di','wo','do','vr','za','zo'],
-               'wekenperjaar': 52,
-               'test':test}
-
+               'dagenindeweek':['ma','di','wo','do','vr','za','zo'],}
+              
     return render(request,'urenschrijven.html',context=context)

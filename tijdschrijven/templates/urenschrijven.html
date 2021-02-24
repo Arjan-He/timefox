@@ -1,8 +1,27 @@
 {% extends "base.html" %}
 {% block title %}<title>TimeFox - Tijdschrijven</title>{% endblock %}
+
+{% block extracss %}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/flick/jquery-ui.css">
+{% endblock %}
+
+{% block extrajs %}
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+{% load static %}
+<script src="{% static 'js/jquery.weekpicker.js' %}"></script>
+
+{% endblock %}
+
+
 {% block content %}
 
 <h1>Tijdschrijven</h1>
+
+<form method="POST" action="{% url 'urenschrijven' %}">
+
+week: <input type="text" id="weekPicker">
+</form>
 
 <form method="POST" action="{% url 'urenschrijven' %}">
   {% csrf_token %}
@@ -32,7 +51,6 @@
 
     </tbody>
     </table>
-    <input type='text' id='testvak' value='{{ test}}'>
     <input type="submit" value="Submit">
 
 </form>
