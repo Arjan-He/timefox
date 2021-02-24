@@ -68,22 +68,7 @@
             var instance = getWeekPickerByInstanceId( dpInstance.id );
 
             var datepickerValue = $( this ).datepicker( "getDate" );
-            var year = datepickerValue.getFullYear();
-            var month = datepickerValue.getMonth();
-
-            var dateObj = new Date( year, month, datepickerValue.getDate() );
-            var week = $.datepicker.iso8601Week( dateObj );
-
-            if ( week > 50 && month === 0 ) {
-                year--;
-            }
-
-            // build the field value based on week format
-            var text = instance.settings.weekFormat;
-            text = text.replace( /ww/g, leftPad( week, 2 ) );
-            text = text.replace( /w/g, week );
-            text = text.replace( /oo/g, year );
-            text = text.replace( /o/g, year % 100 );
+            var text = getDateString(datepickerValue);
 
             instance.weekPickerInput.val( text );
         }
@@ -121,10 +106,17 @@
     };
 
     var createWeekPickerInput = function( datePickerInput ) {
+
+
+        var d = new Date();
+        var datumtekst = getDateString(d);
+
         var datePickerId = datePickerInput.attr( "id" );
         var weekPickerId = datePickerId + "_weekpicker";
         var weekPickerInput = $( "<input type=\"text\" id=\"" + weekPickerId +
-            "\" data-datepicker-id=\"" + datePickerId + "\">" );
+            "\" data-datepicker-id=\"" + datePickerId + "\" value=\""+ datumtekst + "\">" );
+
+        
 
         datePickerInput.after( weekPickerInput );
         datePickerInput.data( "weekpicker-id", weekPickerId );
@@ -142,5 +134,32 @@
         return input.length >= length ?
             input :
             new Array( length - input.length + 1 ).join( padString ) + input;
+
     };
+
+    var getDateString = function(d){
+
+        var year = d.getFullYear();
+        var month = d.getMonth();
+
+        var dateObj = new Date( year, month, d.getDate() );
+        var week = $.datepicker.iso8601Week( dateObj );
+
+        if ( week > 50 && month === 0 ) {
+            year--;
+        }
+
+        //uit gezet door MD, niet nodig
+        // build the field value based on week format
+        // var text = instance.settings.weekFormat;
+        // text = text.replace( /ww/g, leftPad( week, 2 ) );
+        // text = text.replace( /w/g, week );
+        // text = text.replace( /oo/g, year );
+        // text = text.replace( /o/g, year % 100 );
+
+        var text = year + " week: " + week; 
+        return text;
+
+    }
+
 } )( jQuery, window, document );
