@@ -1,7 +1,5 @@
 $(function() {
 
-    console.log('y');
-
     $( "#weekPicker" ).weekpicker({
     
             // set start day of the week

@@ -69,7 +69,6 @@
 
             var datepickerValue = $( this ).datepicker( "getDate" );
             var text = getDateString(datepickerValue);
-
             instance.weekPickerInput.val( text );
         }
     } );
@@ -107,14 +106,11 @@
 
     var createWeekPickerInput = function( datePickerInput ) {
 
-
-        var d = new Date();
-        var datumtekst = getDateString(d);
-
+        var dateText = getDateString(new Date());
         var datePickerId = datePickerInput.attr( "id" );
         var weekPickerId = datePickerId + "_weekpicker";
         var weekPickerInput = $( "<input type=\"text\" id=\"" + weekPickerId +
-            "\" data-datepicker-id=\"" + datePickerId + "\" value=\""+ datumtekst + "\">" );
+            "\" data-datepicker-id=\"" + datePickerId + "\" value=\""+ dateText + "\">" );
 
         
 
