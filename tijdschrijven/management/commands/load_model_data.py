@@ -2,7 +2,7 @@ from csv import DictReader
 
 from django.core.management import BaseCommand
 
-from tijdschrijven.models import Project
+from tijdschrijven.models import Project, Persoon
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
@@ -31,14 +31,17 @@ class Command(BaseCommand):
        
         print("Toevoegen gebruikers....")
         
-        for row2 in DictReader(open('./user_data.csv')):
-            gebruiker = User.objects.create_user(row2['Medewerker'], password=row2['Password'])
-            gebruiker.first_name = row2['First']
-            gebruiker.last_name = row2['Last']
-            gebruiker.is_active = row2['Active']
-            gebruiker.is_superuser= row2['Superuser']
-            gebruiker.is_staff= row2['Staff']
+        for row in DictReader(open('./user_data.csv')):
+            gebruiker = User.objects.create_user(row['Medewerker'], password=row['Password'])
+            gebruiker.first_name = row['First']
+            gebruiker.last_name = row['Last']
+            gebruiker.is_active = row['Active']
+            gebruiker.is_superuser= row['Superuser']
+            gebruiker.is_staff= row['Staff']
             gebruiker.save()
+            persoon = Persoon.objects.get(user=gebruiker)
+            persoon.Dienstverband=row['Uren']
+            persoon.save()
         print("Gebruikers toegevoegd.")
         print("Het script is volledig uitgevoerd.")
         
