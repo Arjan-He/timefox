@@ -123,3 +123,15 @@ class GeschrevenTijd(models.Model):
     class Meta:
         verbose_name_plural = "geschreven tijd"
 
+    def datums_in_week(datum):
+        query = '''
+                with recursive weekdag 
+                    as (select %d as datum
+                        union all
+                        select date(datum,'+1 day') 
+                        from weekdag limit 7
+                        )
+                        select * from weekdag;
+                '''
+        return GeschrevenTijd.objects.raw(query, [datum])
+
