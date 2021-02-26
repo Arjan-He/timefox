@@ -123,7 +123,11 @@ class GeschrevenTijd(models.Model):
     class Meta:
         verbose_name_plural = "geschreven tijd"
 
-    def datums_in_week(datum):
+    # def tijdoverzicht(datum);
+
+
+
+    def datumsinweek(datum):
         query = '''
                 with recursive weekdag 
                     as (select 1 as id, %s as datum
@@ -131,7 +135,29 @@ class GeschrevenTijd(models.Model):
                         select id+1, date(datum,'+1 day') 
                         from weekdag limit 7
                         )
-                        select id, datum from weekdag;
+                        select wkd.id
+                              ,wkd.datum 
+                        from weekdag wkd;
                 '''
         return GeschrevenTijd.objects.raw(query, [datum])
 
+                # with recursive weekdag 
+                #     as (select 1 as id, %s as datum
+                #         union all
+                #         select id+1, date(datum,'+1 day') 
+                #         from weekdag limit 7
+                #         )
+                #         select wkd.id
+                #               ,prj.id as projectID
+                #               ,abm.id as abonnementID
+                #               ,wkd.datum 
+                #               ,tyd.Tijdsduur
+                #               ,prj.Titel
+                #         from weekdag wkd
+                #         left join tijdschrijven_abonnement abm
+                #         on 1=1
+                #         left join tijdschrijven_geschreventijd tyd
+                #         on tyd.AbonnementID_id = abm.id
+                #         left join tijdschrijven_project prj
+                #         on abm.ProjectID_id = prj.id
+                #         order by prj.id, abm.id, wkd.datum;
