@@ -51,8 +51,16 @@ class AbonnementCreate(CreateView):
 def urenschrijven(request):
 
     datum = date.today()
+
     eerstedagweek = dateFunctions.fdow(datum)
-    datumsinweek = GeschrevenTijd.datums_in_week(eerstedagweek)
+    laatstedagweek = dateFunctions.ldow(datum)
+
+    abonnementen = Abonnement.objects.filter(ProjectID__GeldigVan__lte = eerstedagweek
+                                            ,ProjectID__GeldigTot__gte = laatstedagweek
+                                            ,ProjectID__Actief = True)
+
+    datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
+
     dagenInWeek = dateFunctions.dagenInWeek(2)
 
     if request.method == 'POST':
@@ -61,7 +69,7 @@ def urenschrijven(request):
 
         #if form.is_valid():
 
-    context = {'abonnementen': Abonnement.objects.all(),
+    context = {'abonnementen': abonnementen,
                'dagenindeweek':dagenInWeek,
                'datumsinweek': datumsinweek,}
 
