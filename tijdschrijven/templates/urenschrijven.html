@@ -37,22 +37,27 @@
       </tr>
     </thead>
     <tbody>
-        {% for row in abonnementen %}
-        <tr>
-            
-            <td scope="row">{{row.ProjectID.Titel}}</td>
+      {% for i in tijdgrid %}
 
-            {% for day in datumsinweek %}
-            <td><input class="ts-urenvak" type="text" id="{{row.id}}-{{ forloop.counter0 }}" ></td>
-            {% endfor %}
-            <td></td>
-            
-        </tr>
-        {% endfor %}
+      {% if forloop.counter0|divisibleby:7 %}
+        {% if forloop.counter0 > 0 %} <td></td></tr> {% endif %}
+        <tr><td>{{ i.Titel }}</td>
+      {% endif %}
+
+      <td><input class="ts-urenvak" 
+                 type="text" 
+                 id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
+                 value="{% if i.TijdsDuur == None %}{% else %}{{ i.TijdsDuur }} {% endif %}"></td>
+
+      {% if forloop.last %}<td></td></tr>{% endif %} 
+      {% endfor %}
 
     </tbody>
     </table>
+
+
     <input type="submit" value="Submit">
+
 
 </form>
 {% endblock %}

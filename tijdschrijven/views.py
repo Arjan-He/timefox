@@ -60,7 +60,7 @@ def urenschrijven(request):
                                             ,ProjectID__Actief = True)
 
     datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
-
+    tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek,1)
     dagenInWeek = dateFunctions.dagenInWeek(2)
 
     if request.method == 'POST':
@@ -71,9 +71,11 @@ def urenschrijven(request):
 
     context = {'abonnementen': abonnementen,
                'dagenindeweek':dagenInWeek,
-               'datumsinweek': datumsinweek,}
+               'datumsinweek': datumsinweek,
+               'eerstedag': eerstedagweek.strftime("%Y-%m-%d"),
+               'tijdgrid':tijdgrid,}
 
-    # dageninweek eerstedagweek.strftime("%y-%m-%d")
+    # dageninweek 
   
     return render(request,'urenschrijven.html',context=context)
 
