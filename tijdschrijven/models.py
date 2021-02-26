@@ -126,12 +126,12 @@ class GeschrevenTijd(models.Model):
     def datums_in_week(datum):
         query = '''
                 with recursive weekdag 
-                    as (select %d as datum
+                    as (select 1 as id, %s as datum
                         union all
-                        select date(datum,'+1 day') 
+                        select id+1, date(datum,'+1 day') 
                         from weekdag limit 7
                         )
-                        select * from weekdag;
+                        select id, datum from weekdag;
                 '''
         return GeschrevenTijd.objects.raw(query, [datum])
 

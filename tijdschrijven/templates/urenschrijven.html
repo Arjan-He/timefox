@@ -22,12 +22,10 @@
 <h1>Tijdschrijven</h1>
 
 <form method="POST" action="{% url 'urenschrijven' %}">
+  {% csrf_token %}
 
 <input type="text" id="weekPicker">
-</form>
 
-<form method="POST" action="{% url 'urenschrijven' %}">
-  {% csrf_token %}
 <table class="table">
     <thead class="thead-light">
       <tr>
@@ -44,7 +42,7 @@
             
             <td scope="row">{{row.ProjectID.Titel}}</td>
 
-            {% for day in dagenindeweek %}
+            {% for day in datumsinweek %}
             <td><input class="ts-urenvak" type="text" id="{{row.id}}-{{ forloop.counter0 }}" ></td>
             {% endfor %}
             <td></td>
@@ -55,6 +53,8 @@
     </tbody>
     </table>
     <input type="submit" value="Submit">
+
+
 
 </form>
 {% endblock %}

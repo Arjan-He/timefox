@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from tijdschrijven.models import Project,Persoon,Abonnement
+from tijdschrijven.models import Project, Persoon, Abonnement, GeschrevenTijd
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .forms import tijdschrijfForm
+from utils import dateFunctions
+from datetime import date
 # Create your views here.
 
 def index(request):
@@ -48,6 +50,11 @@ class AbonnementCreate(CreateView):
 
 def urenschrijven(request):
 
+    datum = date.today()
+    eerstedagweek = dateFunctions.fdow(datum)
+    datumsinweek = GeschrevenTijd.datums_in_week(eerstedagweek)
+    dagenInWeek = dateFunctions.dagenInWeek(2)
+
     if request.method == 'POST':
     
         form = tijdschrijfForm(request.POST)
@@ -55,6 +62,10 @@ def urenschrijven(request):
         #if form.is_valid():
 
     context = {'abonnementen': Abonnement.objects.all(),
-               'dagenindeweek':['ma','di','wo','do','vr','za','zo'],}
-              
+               'dagenindeweek':dagenInWeek,
+               'datumsinweek': datumsinweek,}
+
+    # dageninweek eerstedagweek.strftime("%y-%m-%d")
+  
     return render(request,'urenschrijven.html',context=context)
+
