@@ -2,7 +2,7 @@ from csv import DictReader
 
 from django.core.management import BaseCommand
 
-from tijdschrijven.models import Project, Persoon
+from tijdschrijven.models import Project, Persoon, Abonnement
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
@@ -39,9 +39,18 @@ class Command(BaseCommand):
             gebruiker.is_superuser= row['Superuser']
             gebruiker.is_staff= row['Staff']
             gebruiker.save()
+            # aanvullen dienstverbanden
             persoon = Persoon.objects.get(user=gebruiker)
             persoon.Dienstverband=row['Uren']
             persoon.save()
+            # toevoegen abonnementen
+            projecten = Project.objects.all()
+            for project in projecten:
+                abonnement = Abonnement()
+                abonnement.ProjectID=project
+                abonnement.PersoonID=persoon
+                abonnement.OriginalObjectID=project.id
+                abonnement.save()
         print("Gebruikers toegevoegd.")
         print("Het script is volledig uitgevoerd.")
         

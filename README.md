@@ -12,7 +12,7 @@ Op dit moment worden de volgende url's afgevangen:
 | /tijdschrijven/projecten                 | Projecten raadplegen  |
 | /tijdschrijven/project/create/           | Project aanmaken      |
 | /tijdschrijven/project/<int:pk>/update/  | Project wijzigen      |
-| /tijdschrijven/ project/<int:pk>/delete/ | Project verwijderen   |
+| /tijdschrijven/project/<int:pk>/delete/  | Project verwijderen   |
 | /tijdschrijven/abonnementen              | Toon abonnementen     |
 | /tijdschrijven/abonnement/create/        | Abonnement toevoegen  |
 | /tijdschrijven/urenschrijven             | Uren schrijven        |
