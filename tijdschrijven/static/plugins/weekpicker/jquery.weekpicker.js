@@ -44,6 +44,7 @@
             // initialize the date picker input, but hide it,
             // so only the week picker version remains visible
             this.datePickerInput.datepicker( this.settings );
+            this.datePickerInput.attr('name','datum');
             this.datePickerInput.hide();
 
             this.weekPickerInput.focus( function() {
@@ -68,6 +69,10 @@
             var instance = getWeekPickerByInstanceId( dpInstance.id );
 
             var datepickerValue = $( this ).datepicker( "getDate" );
+
+            var dStr = datepickerValue.getFullYear()+"-"+(datepickerValue.getMonth()+1) +"-"+datepickerValue.getDate();
+            $('#weekPicker').attr( "value",dStr );
+
             var text = getDateString(datepickerValue);
             instance.weekPickerInput.val( text );
         }
@@ -106,7 +111,10 @@
 
     var createWeekPickerInput = function( datePickerInput ) {
 
-        var dateText = getDateString(new Date());
+        var d = new Date();
+        var dStr = d.getFullYear()+"-"+(d.getMonth()+1) +"-"+d.getDate();
+        datePickerInput.attr( "value",dStr );
+        var dateText = getDateString(d);
         var datePickerId = datePickerInput.attr( "id" );
         var weekPickerId = datePickerId + "_weekpicker";
         var weekPickerInput = $( "<input type=\"text\" id=\"" + weekPickerId +
@@ -145,7 +153,7 @@
             year--;
         }
 
-        //uit gezet door MD, niet nodig
+        //uit gezet door MD, niet nodig voor ons doel
         // build the field value based on week format
         // var text = instance.settings.weekFormat;
         // text = text.replace( /ww/g, leftPad( week, 2 ) );
