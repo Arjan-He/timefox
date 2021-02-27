@@ -3,7 +3,7 @@
 
 {% block extracss %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'plugins/jquery-ui-1.12.1/themes/jquery-ui-flick.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/jquery-ui-1.12.1/jquery-ui-flick.css' %}">
 {% endblock %}
 
 {% block extrajs %}
@@ -25,6 +25,7 @@
   {% csrf_token %}
 
 <input type="text" id="weekPicker">
+<input type='hidden' id='datum'>
 
 <table class="table">
     <thead class="thead-light">
@@ -47,6 +48,7 @@
       <td><input class="ts-urenvak" 
                  type="text" 
                  id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
+                 name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
                  value="{% if i.TijdsDuur == None %}{% else %}{{ i.TijdsDuur }} {% endif %}"></td>
 
       {% if forloop.last %}<td></td></tr>{% endif %} 
@@ -60,4 +62,5 @@
 
 
 </form>
+
 {% endblock %}

@@ -2,9 +2,10 @@ from django.shortcuts import render
 from tijdschrijven.models import Project, Persoon, Abonnement, GeschrevenTijd
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .forms import tijdschrijfForm
+# from .forms import tijdschrijfForm
 from utils import dateFunctions
 from datetime import date
+from utils import verwerkUren
 # Create your views here.
 
 def index(request):
@@ -55,25 +56,23 @@ def urenschrijven(request):
     eerstedagweek = dateFunctions.fdow(datum)
     laatstedagweek = dateFunctions.ldow(datum)
 
-    abonnementen = Abonnement.objects.filter(ProjectID__GeldigVan__lte = eerstedagweek
-                                            ,ProjectID__GeldigTot__gte = laatstedagweek
-                                            ,ProjectID__Actief = True)
+    # abonnementen = Abonnement.objects.filter(ProjectID__GeldigVan__lte = eerstedagweek
+    #                                         ,ProjectID__GeldigTot__gte = laatstedagweek
+    #                                         ,ProjectID__Actief = True)
 
     datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
     tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek,1)
     dagenInWeek = dateFunctions.dagenInWeek(2)
+    velden = []
 
     if request.method == 'POST':
-    
-        form = tijdschrijfForm(request.POST)
+        # form = tijdschrijfForm(request.POST)
+        # if form.is_valid():
+        velden = verwerkUren.walkTheGrid(request.POST)
 
-        #if form.is_valid():
-
-    context = {'abonnementen': abonnementen,
-               'dagenindeweek':dagenInWeek,
-               'datumsinweek': datumsinweek,
-               'eerstedag': eerstedagweek.strftime("%Y-%m-%d"),
-               'tijdgrid':tijdgrid,}
+    context = {'dagenindeweek':dagenInWeek,
+               'tijdgrid':tijdgrid,
+               'velden':velden,}
 
     # dageninweek 
   
