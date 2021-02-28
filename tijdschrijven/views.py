@@ -68,18 +68,13 @@ def urenschrijven(request):
     eerstedagweek = dateFunctions.fdow(datum)
     laatstedagweek = dateFunctions.ldow(datum)
 
-
     datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
     tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek,1)
     dagenInWeek = dateFunctions.daysInWeek(2)
-    velden = []
-
-
 
     context = {'dagenindeweek':dagenInWeek,
-               'tijdgrid':tijdgrid,}
+               'tijdgrid':tijdgrid,
+               'datum': datum.isoformat()[0:10],}
 
-    # dageninweek 
-  
     return render(request,'urenschrijven.html',context=context)
 

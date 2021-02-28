@@ -22,7 +22,7 @@
 <form method="POST" id='formGrid' action="{% url 'urenschrijven' %}">
   {% csrf_token %}
 
-<input type="text" id="weekPicker">
+<input type="text" id="weekPicker" value="{{ datum }}">
 
 <table class="table">
     <thead class="thead-light">

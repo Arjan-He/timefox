@@ -70,7 +70,7 @@
 
             var datepickerValue = $( this ).datepicker( "getDate" );
 
-            var dStr = datepickerValue.getFullYear()+"-"+(datepickerValue.getMonth()+1) +"-"+datepickerValue.getDate();
+            var dStr = datepickerValue.toISOString().substr(0,10);
             $('#weekPicker').attr( "value",dStr );
 
             var text = getDateString(datepickerValue);
@@ -113,9 +113,8 @@
 
     var createWeekPickerInput = function( datePickerInput ) {
 
-        var d = new Date();
-        var dStr = d.getFullYear()+"-"+(d.getMonth()+1) +"-"+d.getDate();
-        datePickerInput.attr( "value",dStr );
+        var dedate = datePickerInput.val();
+        var d = new Date(dedate);
         var dateText = getDateString(d);
         var datePickerId = datePickerInput.attr( "id" );
         var weekPickerId = datePickerId + "_weekpicker";
