@@ -1,5 +1,5 @@
 $(function() {
-
+    
     $( "#weekPicker" ).weekpicker({
     
             // set start day of the week
@@ -26,11 +26,9 @@ $(function() {
    
     });
 
-});
+    $('#weekPicker_weekpicker').on('change',function(){
+        console.log('yes');
+    });
 
-$(function() {
-
-
-    
 
 });

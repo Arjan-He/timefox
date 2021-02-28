@@ -18,17 +18,14 @@ def getDateRangeFromWeek(p_year,p_week):
     return firstdayofweek, lastdayofweek
 
 
-# piece represents how much letters from the day (0=all => 2=ma,di etc))
-def dagenInWeek(piece=0):
+# part represents how much letters from the day (0=all => 2=ma,di etc))
+def daysInWeek(part=0):
 
     # all days in week in dutch, 
-    dagen = ['maandag','dinsdag','woensdag','donderdag'
+    days = ['maandag','dinsdag','woensdag','donderdag'
             ,'vrijdag','zaterdag','zondag']
 
-    if piece > 0:
-        theReturn = [dag[:piece].lower() for dag in dagen]
+    if part > 0:
+        days = [day[:part].lower() for day in days]
 
-    else:
-        theReturn = dagen
-
-    return theReturn
+    return days

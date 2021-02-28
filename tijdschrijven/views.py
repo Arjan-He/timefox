@@ -62,7 +62,7 @@ def urenschrijven(request):
 
     datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
     tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek,1)
-    dagenInWeek = dateFunctions.dagenInWeek(2)
+    dagenInWeek = dateFunctions.daysInWeek(2)
     velden = []
 
     if request.method == 'POST':
