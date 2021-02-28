@@ -52,27 +52,32 @@ class AbonnementCreate(CreateView):
 def urenschrijven(request):
 
     datum = date.today()
+    weeknummer = []
+
+    if request.method == 'POST':
+        # form = tijdschrijfForm(request.POST)
+        # if form.is_valid():
+        verwerkUren.walkTheGrid(request.POST)
+
+        if request.POST['weeknummer']:
+            weeknummer = request.POST['weeknummer'].split('week:')
+            weeknummer = [x.strip() for x in weeknummer] 
+            datum, datum2 = dateFunctions.getDateRangeFromWeek(weeknummer[0],weeknummer[1])
+
 
     eerstedagweek = dateFunctions.fdow(datum)
     laatstedagweek = dateFunctions.ldow(datum)
 
-    # abonnementen = Abonnement.objects.filter(ProjectID__GeldigVan__lte = eerstedagweek
-    #                                         ,ProjectID__GeldigTot__gte = laatstedagweek
-    #                                         ,ProjectID__Actief = True)
 
     datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
     tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek,1)
     dagenInWeek = dateFunctions.daysInWeek(2)
     velden = []
 
-    if request.method == 'POST':
-        # form = tijdschrijfForm(request.POST)
-        # if form.is_valid():
-        velden = verwerkUren.walkTheGrid(request.POST)
+
 
     context = {'dagenindeweek':dagenInWeek,
-               'tijdgrid':tijdgrid,
-               'velden':velden,}
+               'tijdgrid':tijdgrid,}
 
     # dageninweek 
   

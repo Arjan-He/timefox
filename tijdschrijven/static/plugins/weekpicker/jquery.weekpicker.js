@@ -74,7 +74,9 @@
             $('#weekPicker').attr( "value",dStr );
 
             var text = getDateString(datepickerValue);
+            var textOld = instance.weekPickerInput.val();
             instance.weekPickerInput.val( text );
+            if(textOld != text){$('#formGrid').submit();}
         }
     } );
 
@@ -118,7 +120,8 @@
         var datePickerId = datePickerInput.attr( "id" );
         var weekPickerId = datePickerId + "_weekpicker";
         var weekPickerInput = $( "<input type=\"text\" id=\"" + weekPickerId +
-            "\" data-datepicker-id=\"" + datePickerId + "\" value=\""+ dateText + "\">" );
+            "\" data-datepicker-id=\"" + datePickerId + "\" value=\""+ dateText +
+            "\" name=\"" +"weeknummer"+ "\">" );
 
         
 
