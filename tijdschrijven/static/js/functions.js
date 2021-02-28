@@ -26,9 +26,6 @@ $(function() {
    
     });
 
-    $('#weekPicker_weekpicker').on('change',function(){
-        console.log('yes');
-    });
-
-
 });
+
+
