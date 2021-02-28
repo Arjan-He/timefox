@@ -20,21 +20,26 @@ def walkTheGrid(formfields):
 
 def schrijfUrenNaarDb(urenArray):
 
-    Tijdid = int(urenArray[2])
+    tijdID = int(urenArray[2])
+    tijd = urenArray[4].strip()
+    tijd = 0 if tijd == '' else float(tijd)
 
-    if Tijdid != 0 and urenArray[4] == '':
-        GeschrevenTijd.objects.filter(id=Tijdid).delete()
+    if tijd==0:
+        if tijdID != 0:
+            GeschrevenTijd.objects.filter(id=tijdID).delete()
 
-    if Tijdid != 0 and urenArray[4] != '':
-        tijd = float(urenArray[4])
-        GeschrevenTijd.objects.filter(id=Tijdid).update(TijdsDuur=tijd)
+    if tijd != 0:
 
-    if Tijdid == 0 and urenArray[4] != '': 
-        aboID = int(urenArray[1])
-        tijd = float(urenArray[4])
-        GeschrevenTijd.objects.create(AbonnementID=Abonnement.objects.get(id=aboID),
-                                Datum=urenArray[3],
-                                TijdsDuur=tijd)
+        if tijdID == 0: 
+            aboID = int(urenArray[1])
+            GeschrevenTijd.objects.create(AbonnementID=Abonnement.objects.get(id=aboID),
+                                          Datum=urenArray[3],
+                                          TijdsDuur=tijd)
+        
+        else:
+            GeschrevenTijd.objects.filter(id=tijdID).update(TijdsDuur=tijd)
+
+
 
     
     return False
