@@ -55,6 +55,14 @@ We hebben de volgende logging geconfigureerd:
 | Uwsgi         | /var/log/uwsgi/  |
 | Django        | /var/log/django/ |
 
+# Gebruikte javascript 
+Bootstrap-4.5.3
+Jquery-3.5.1
+JQuery-Ui-1.12.1
+Weekpicker: 
+jquery.fancytree: https://www.npmjs.com/package/jquery.fancytree
+
+
 # Wat zit er niet in dit project (zie ook Git Ignore)
 
 * database (lokaal: sqlite3, server: postgres)

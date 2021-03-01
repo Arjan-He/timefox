@@ -1,4 +1,5 @@
 ;( function( $, window, document, undefined ) {
+    //https://www.jqueryscript.net/time-clock/Easy-Week-Picker-Widget-For-jQuery-UI-weekPicker-js.html
 
     "use strict";
 
@@ -155,7 +156,7 @@
             year--;
         }
 
-        //uit gezet door MD, niet nodig voor ons doel
+        //uitgezet door MD, niet nodig voor ons doel
         // build the field value based on week format
         // var text = instance.settings.weekFormat;
         // text = text.replace( /ww/g, leftPad( week, 2 ) );
