@@ -30,6 +30,13 @@
           <li><a href="{% url 'abonnementen' %}">Abonnementen</a></li>
           <li><a href="{% url 'urenschrijven' %}">Uren schrijven</a></li>
           <li><a href="">Rapportages</a></li>
+        <!-- New block added for user authentication -->  
+        {% if user.is_authenticated %}
+          <li>User: {{ user.get_username }}</li>
+          <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+        {% else %}
+          <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+        {% endif %}
         </ul>
      {% endblock %}
       </div>
