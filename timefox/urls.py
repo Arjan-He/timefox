@@ -24,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('tijdschrijven/', include('tijdschrijven.urls')),
     path('', RedirectView.as_view(url='tijdschrijven/', permanent=True)),
+    path('accounts/', include('django.contrib.auth.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # Waar is dit voor? Dit doe je toch in de settings.py?

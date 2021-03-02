@@ -57,7 +57,7 @@ ROOT_URLCONF = 'timefox.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,3 +121,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Redirect to home URL after login 
+LOGIN_REDIRECT_URL = '/'
+
+# Zorgt ervoor dat reset password gecheckt kan worden. Er moet nog email functionaliteit toegevoegd worden voordat dit echt werkt.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
