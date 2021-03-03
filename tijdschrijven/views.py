@@ -2,6 +2,7 @@ from django.shortcuts import render
 from tijdschrijven.models import Project, Persoon, Abonnement, GeschrevenTijd
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 # from .forms import tijdschrijfForm
 from utils import dateFunctions
 import datetime
@@ -14,7 +15,7 @@ def index(request):
     """View function for home page of site."""
     return render(request, 'index.html')
 
-
+@login_required
 def projecten(request):
    projecten = Project.objects.all()
    context = {'projecten': projecten,}
@@ -38,7 +39,7 @@ class ProjectDelete(DeleteView):
     model = Project
     success_url = reverse_lazy('projecten')
 
-
+@login_required
 def abonnementen(request):
     abonnementen = Abonnement.objects.all()
     context = {'abonnementen': abonnementen,}
@@ -50,7 +51,7 @@ class AbonnementCreate(CreateView):
     fields=['PersoonID', 'ProjectID','OriginalObjectID']
     success_url = reverse_lazy('abonnementen')
 
-
+@login_required
 def urenschrijven(request):
 
     datum = date.today()
