@@ -4,8 +4,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 # from .forms import tijdschrijfForm
 from utils import dateFunctions
+import datetime
 from datetime import date
 from utils import verwerkUren
+from django.db.models import Q
 # Create your views here.
 
 def index(request):
@@ -69,12 +71,27 @@ def urenschrijven(request):
     laatstedagweek = dateFunctions.ldow(datum)
 
     datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
-    tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek,1)
+    tijdgridOud = GeschrevenTijd.tijdoverzicht(eerstedagweek,1)
+    tijdgrid = []
+
+    for i in range(7):
+        deDatum = eerstedagweek + datetime.timedelta(days=i)
+        therecord = Abonnement.objects.filter(ProjectID__GeldigVan__lte = eerstedagweek,
+                                              ProjectID__GeldigTot__gte = eerstedagweek,
+                                              PersoonID__id = 3)\
+                    .filter(Q(geschreventijd__Datum=deDatum) | Q(geschreventijd__Datum__isnull=True))\
+                    .values('id','PersoonID','ProjectID','ProjectID__Titel'
+                            ,'ProjectID__GeldigVan','ProjectID__GeldigTot'
+                            ,'geschreventijd__TijdsDuur')
+
+        tijdgrid.append(therecord)
+
     dagenInWeek = dateFunctions.daysInWeek(2)
 
     context = {'dagenindeweek':dagenInWeek,
-               'tijdgrid':tijdgrid,
-               'datum': datum.isoformat()[0:10],}
+               'tijdgrid':tijdgridOud,
+               'datum': datum.isoformat()[0:10],
+               'newgrid' : tijdgrid}
 
     return render(request,'urenschrijven.html',context=context)
 
