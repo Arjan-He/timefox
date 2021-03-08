@@ -43,7 +43,9 @@
       {% endif %}
 
       <td><input class="ts-urenvak" 
-                 type="text" 
+                 type="number" 
+                 min="0"
+                 max="24"
                  id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
                  name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
                  value="{% if i.TijdsDuur == None %}{% else %}{{ i.TijdsDuur }} {% endif %}"></td>
@@ -54,10 +56,7 @@
     </tbody>
     </table>
 
-
     <input type="submit" name='saveGrid' value="Submit">
-
-    <pre>{{ newgrid }}</pre>
 
 </form>
 
