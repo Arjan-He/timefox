@@ -3,12 +3,12 @@ from tijdschrijven.models import Project, Persoon, Abonnement, GeschrevenTijd
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-# from .forms import tijdschrijfForm
 from utils import dateFunctions
 import datetime
 from datetime import date
 from utils import verwerkUren
-from django.db.models import Q
+
+
 # Create your views here.
 
 def index(request):
@@ -54,9 +54,9 @@ class AbonnementCreate(CreateView):
 @login_required
 def urenschrijven(request):
 
+    # Dit moet een veld worden in Persoon (laatst bezochte week)
     datum = date.today()
-    weeknummer = []
-
+    
     if request.method == 'POST':
         # form = tijdschrijfForm(request.POST)
         # if form.is_valid():
@@ -72,27 +72,15 @@ def urenschrijven(request):
     laatstedagweek = dateFunctions.ldow(datum)
 
     datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
-    tijdgridOud = GeschrevenTijd.tijdoverzicht(eerstedagweek,1)
-    tijdgrid = []
+    tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek, request.user.id)
 
-    for i in range(7):
-        deDatum = eerstedagweek + datetime.timedelta(days=i)
-        therecord = Abonnement.objects.filter(ProjectID__GeldigVan__lte = eerstedagweek,
-                                              ProjectID__GeldigTot__gte = eerstedagweek,
-                                              PersoonID__id = 3)\
-                    .filter(Q(geschreventijd__Datum=deDatum) | Q(geschreventijd__Datum__isnull=True))\
-                    .values('id','PersoonID','ProjectID','ProjectID__Titel'
-                            ,'ProjectID__GeldigVan','ProjectID__GeldigTot'
-                            ,'geschreventijd__TijdsDuur')
-
-        tijdgrid.append(therecord)
-
+    # argument=2: de eerste twee letters van de dagen
     dagenInWeek = dateFunctions.daysInWeek(2)
 
+
     context = {'dagenindeweek':dagenInWeek,
-               'tijdgrid':tijdgridOud,
-               'datum': datum.isoformat()[0:10],
-               'newgrid' : tijdgrid}
+               'tijdgrid':tijdgrid,
+               'datum': datum.isoformat()[0:10],}
 
     return render(request,'urenschrijven.html',context=context)
 
