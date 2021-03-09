@@ -5,6 +5,7 @@ from django.dispatch import receiver
 
 from django.conf import settings #https://learndjango.com/tutorials/django-best-practices-referencing-user-model
 
+from django_cte import CTEManager
 
 class Project(models.Model):
     Titel = models.CharField(max_length=88, null=True)
@@ -18,6 +19,7 @@ class Project(models.Model):
     GeldigTot = models.DateField()
     Actief = models.BooleanField()
     Personen = models.ManyToManyField('Persoon', through='Abonnement')
+    objects = CTEManager()
 
     def __str__(self):
         """String for representing the Model object."""
@@ -147,7 +149,7 @@ class GeschrevenTijd(models.Model):
 
                           join tijdschrijven_persoon prs
                             on abm.PersoonID_id = prs.id
-                           and prs.id = %s
+                           and prs.user_id = %s
 
                           join tijdschrijven_project prj
                             on abm.ProjectID_id = prj.id
@@ -161,6 +163,10 @@ class GeschrevenTijd(models.Model):
                                  ,wkd.datum;
                 '''
         return GeschrevenTijd.objects.raw(query, [datum,prs])
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.id      
 
     def datumsinweek(datum):
         query = '''
