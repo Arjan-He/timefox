@@ -36,4 +36,25 @@
 </tbody>
 </table>
 <a href="project/create/">Project toevoegen</a>
+
+
+<ul>
+
+  {% for i in parents %}
+
+  <li>{{ i.Titel }} ; {{ i.id }} ; {{ i.ParentID_id }} ; {{ i.depth }}</li>
+
+  {% endfor %}
+
+{% for i in children %}
+
+  <li>{{ i.Titel }} ; {{ i.id }} ; {{ i.ParentID_id }} ; {{ i.depth }}</li>
+
+{% endfor %}
+
+
+
+</ul>
+
+
 {% endblock %}
