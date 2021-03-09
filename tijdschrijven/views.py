@@ -7,7 +7,7 @@ from utils import dateFunctions
 import datetime
 from datetime import date
 from utils import verwerkUren
-
+from utils import projectFuncties
 
 # Create your views here.
 
@@ -17,10 +17,16 @@ def index(request):
 
 @login_required
 def projecten(request):
-   projecten = Project.objects.all()
-   context = {'projecten': projecten,}
-   # Render the HTML template index.html with the data in the context variable
-   return render(request, 'projecten.html', context=context)
+    projecten = Project.objects.all()
+
+    parents = projectFuncties.geefProjectParents(15)
+    children = projectFuncties.geefProjectChildren(15)
+
+    context = {'projecten': projecten,
+               'children': children,
+               'parents': parents,}
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'projecten.html', context=context)
 
 
 class ProjectCreate(CreateView):
@@ -76,7 +82,6 @@ def urenschrijven(request):
 
     # argument=2: de eerste twee letters van de dagen
     dagenInWeek = dateFunctions.daysInWeek(2)
-
 
     context = {'dagenindeweek':dagenInWeek,
                'tijdgrid':tijdgrid,
