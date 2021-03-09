@@ -1,6 +1,13 @@
 Titel,Omschrijving,ParentID,AanmakerID,GeldigVan,GeldigTot,Actief
-Onderzoek,Onderzoeksopdrachten,,22,2020-01-01,2050-12-31,True
-BI,BI Opdrachten,,23,2020-01-01,2050-12-31,True
+Root,De basisnode,,,1900-01-01,2100-01-01,True
+Onderzoek,Onderzoeksopdrachten,1,22,1900-01-01,2100-01-01,True
+BI,BI Opdrachten,1,23,1900-01-01,2100-01-01,True
+Overhead,Niet opdrachtgerelateerde bezigheden,1,,1900-01-01,2100-01-01,True
+Afwezigheid,Registratie van verlof, ziekte etc,1,,1900-01-01,2100-01-01,True
+Intern,Intern,,1,1900-01-01,2100-01-01,True
+Ziekte,Ziekte uren,,1,1900-01-01,2100-01-01,True
+Verlof,Verlof uren,,1,1900-01-01,2100-01-01,True
+ADV,ADV uren,,1,1900-01-01,2100-01-01,True
 Project A,Werkzaamheden voor A,,23,2020-01-01,2021-12-31,True
 Project B,Werkzaamheden voor B,,1,2020-01-01,2021-12-31,True
 Project C,Werkzaamheden voor C,,1,2020-01-01,2021-12-31,True
@@ -9,7 +16,3 @@ Project E,Werkzaamheden voor E,,2,2020-01-01,2021-12-31,True
 Project F,Werkzaamheden voor F,,3,2020-01-01,2021-01-31,False
 Project G,Werkzaamheden voor G,,3,2021-03-01,2021-12-31,True
 Project H,Werkzaamheden voor H,,4,2020-01-01,2020-12-31,False
-Intern,Intern,,1,2020-01-01,2050-12-31,True
-Ziekte,Ziekte uren,,1,2020-01-01,2050-12-31,True
-Verlof,Verlof uren,,1,2020-01-01,2050-12-31,True
-ADV,ADV uren,,1,2020-01-01,2050-12-31,True
