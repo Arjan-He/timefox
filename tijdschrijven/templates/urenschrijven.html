@@ -34,23 +34,36 @@
         <th>totaal</th>
       </tr>
     </thead>
+
     <tbody>
+
       {% for i in tijdgrid %}
 
-      {% if forloop.counter0|divisibleby:7 %}
-        {% if forloop.counter0 > 0 %} <td></td></tr> {% endif %}
-        <tr><td>{{ i.Titel }}</td>
-      {% endif %}
+        {% if forloop.counter0|divisibleby:7 %}
 
-      <td><input class="ts-urenvak" 
-                 type="number" 
-                 min="0"
-                 max="24"
-                 id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
-                 name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
-                 value="{% if i.TijdsDuur == None %}{% else %}{{ i.TijdsDuur }} {% endif %}"></td>
+          {% if forloop.counter0 > 0 %}
+            <td></td></tr>
+          {% endif %}
 
-      {% if forloop.last %}<td></td></tr>{% endif %} 
+          <tr><td>{{ i.Titel }}</td>
+
+        {% endif %}
+
+        <td>
+            <input class="ts-urenvak" 
+                  type="number" 
+                  min="0"
+                  max="24"
+                  step="0.01"
+                  id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
+                  name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
+                  value="{% if i.TijdsDuur == None %}{% else %}{{ i.TijdsDuur }}{% endif %}">
+        </td>
+
+        {% if forloop.last %}
+          <td></td></tr>
+        {% endif %}
+
       {% endfor %}
 
     </tbody>
