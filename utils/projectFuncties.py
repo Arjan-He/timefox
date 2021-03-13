@@ -6,8 +6,6 @@ from django.db.models.functions import Concat
  
 def geefProjectChildren(ProjectID):
 
-    # hoe gaan we om met null   
- 
     def geef_project_children(childs):
 
         return Project.objects.filter(

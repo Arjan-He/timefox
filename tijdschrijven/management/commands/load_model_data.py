@@ -17,7 +17,7 @@ class Command(BaseCommand):
             print('Let op!!! Er staan al projecten in de database...')
             print('Voor een schone start, kun je Sqlite verwijderen en de migraties opnieuw uitvoeren.')
         print("Laden projectdata...")
-        for row in DictReader(open('./project_data.csv')):
+        for row in DictReader(open('./data/project_data.csv')):
             project = Project()
             project.Titel = row['Titel']
             project.Omschrijving = row['Omschrijving']
@@ -31,7 +31,7 @@ class Command(BaseCommand):
        
         print("Toevoegen gebruikers....")
         
-        for row in DictReader(open('./user_data.csv')):
+        for row in DictReader(open('./data/user_data.csv')):
             gebruiker = User.objects.create_user(row['Medewerker'], password=row['Password'])
             gebruiker.first_name = row['First']
             gebruiker.last_name = row['Last']

@@ -16,6 +16,10 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+a object{
+    pointer-events: none;
+}
+
 .sidebar-nav {
     margin-top: 20px;
     padding: 0;
