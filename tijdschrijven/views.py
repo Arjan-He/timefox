@@ -88,4 +88,3 @@ def urenschrijven(request):
                'datum': datum.isoformat()[0:10],}
 
     return render(request,'urenschrijven.html',context=context)
-
