@@ -10,4 +10,5 @@ urlpatterns = [
     path('abonnementen', views.abonnementen, name='abonnementen'),
     path('abonnement/create/', views.AbonnementCreate.as_view(), name='abonnement-create'),
     path('urenschrijven', views.urenschrijven, name='urenschrijven'),
+    path('rapportage', views.rapport, name='rapportage'),
 ]

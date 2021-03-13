@@ -48,7 +48,7 @@
                  max="24"
                  id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
                  name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
-                 value="{% if i.TijdsDuur == None %}{% else %}{{ i.TijdsDuur }} {% endif %}"></td>
+                 value="{% if i.TijdsDuur == None %}{% else %}{{ i.TijdsDuur }}{% endif %}"></td>
 
       {% if forloop.last %}<td></td></tr>{% endif %} 
       {% endfor %}
