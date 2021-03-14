@@ -42,8 +42,57 @@ $(function() {
         }
     });
 
+    $('.ts-urenvak').on('change',function(){
 
+        let dag = $(this).attr('daginweek');
+        dagtotaal(dag);
+        let abonnment = $(this).attr('abonnementdag');
+        abonnementtotaal(abonnment);
+        eindtotaal();
+
+    })
+
+    $('#tijdgrid').DataTable();
+
+    if($('#tijdgrid').length){
+        
+        for(let i=0;i<8;i++){dagtotaal(i);}
+
+        $('.ts-abonnementtotaal').each(function(){
+            abonnementtotaal($(this).attr('abonnement'));
+        });
+
+        eindtotaal();
+
+    }
 
 });
+
+function abonnementtotaal(abonnement){
+    let som = 0;
+    $('input[abonnementdag="'+abonnement+'"]').each(function() {
+        som += $(this).val() * 1;
+    });
+    $('input[abonnement="'+abonnement+'"]').val(som);
+}
+
+
+function dagtotaal(dag){
+    
+    let som = 0;
+    $('input[dagnummer="'+dag+'"]').each(function() {
+        som += $(this).val() * 1;
+    });
+    $('input[weekdag="'+dag+'"]').val(som);
+
+}
+
+function eindtotaal(){
+    let som = 0;
+    $('.ts-dagtotaal').each(function(){
+        som += $(this).val() * 1;
+    });
+    $("#ts-eindtotaal").val(som);
+}
 
 
