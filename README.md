@@ -34,6 +34,7 @@ De app tijdschrijven zorgt voor de registratie van uren. In de app zijn de volge
 
 * Django 
 * Python-decouple - afscherming wachtwoorden etc
+* django-cte
 
 Zie ook de file **requirements.txt**. Deze kun je ook uitvoeren via PIP. `pip install -r requirements.txt`
 
