@@ -130,9 +130,11 @@ class GeschrevenTijd(models.Model):
                with recursive weekdag 
                     as (select 0 as id
                               ,%s as datum
+                              ,0 as dagnummer
                          union all
                         select id+1
-                              ,date(datum,'+1 day') 
+                              ,date(datum,'+1 day')
+                              ,dagnummer + 1 
                           from weekdag limit 7
                         )
                         select wkd.id
@@ -140,6 +142,7 @@ class GeschrevenTijd(models.Model):
                               ,abm.id as abonnementID
                               ,tyd.id tijdID
                               ,wkd.datum 
+                              ,wkd.dagnummer
                               ,tyd.TijdsDuur
                               ,prj.Titel
                           from weekdag wkd
