@@ -120,7 +120,7 @@ class GeschrevenTijd(models.Model):
     AbonnementID = models.ForeignKey('Abonnement', on_delete=models.CASCADE)
     AanmaakDatum = models.DateField(auto_now_add=True)
     Datum = models.DateField()
-    TijdsDuur = models.DecimalField(max_digits=5, decimal_places=2)
+    TijdsDuur = models.DecimalField(max_digits=4, decimal_places=2)
 
     class Meta:
         verbose_name_plural = "geschreven tijd"
@@ -166,7 +166,10 @@ class GeschrevenTijd(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return self.id      
+        return  self.AbonnementID.PersoonID.user.first_name + " " + \
+            self.AbonnementID.PersoonID.user.last_name + " - " +  \
+            self.AbonnementID.ProjectID.Titel + " - " +  \
+            str(self.Datum) + " - " + str(self.TijdsDuur)
 
     def datumsinweek(datum):
         query = '''

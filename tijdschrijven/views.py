@@ -8,6 +8,7 @@ import datetime
 from datetime import date
 from utils import verwerkUren
 from utils import projectFuncties
+from django.db.models import Sum
 
 # Create your views here.
 
@@ -88,3 +89,28 @@ def urenschrijven(request):
                'datum': datum.isoformat()[0:10],}
 
     return render(request,'urenschrijven.html',context=context)
+
+@login_required
+def rapport(request):
+    """View voor de rapportage pagina"""
+    # Berekening totalen voor alle projecten voor alle medewerkers
+    tot_uren_per_project = Project.objects.filter(abonnement__geschreventijd__TijdsDuur__gt=0).values('Titel').annotate(Totaal=Sum('abonnement__geschreventijd__TijdsDuur'))
+    cumtot_uren_per_project = sum(tot_uren_per_project.values_list('Totaal', flat=True))
+    # Berekening totalen voor alle projecten voor de ingelogde medewerker
+    tot_uren_per_project_mdw = Project.objects.filter(persoon__user=request.user, abonnement__geschreventijd__TijdsDuur__gt=0).values('Titel').annotate(Totaal=Sum('abonnement__geschreventijd__TijdsDuur'))
+    cumtot_uren_per_project_mdw = sum(tot_uren_per_project_mdw.values_list('Totaal', flat=True))
+    # Berekening totalen voor alle projecten voor de ingelogde medewerker voor de maand maart
+    tot_uren_per_project_mdw_per = Project.objects.filter(persoon__user=request.user, abonnement__geschreventijd__Datum__range=["2021-03-01", "2021-03-31"], abonnement__geschreventijd__TijdsDuur__gt=0).values('Titel').annotate(Totaal=Sum('abonnement__geschreventijd__TijdsDuur'))
+    cumtot_uren_per_project_mdw_per = sum(tot_uren_per_project_mdw_per.values_list('Totaal', flat=True))
+
+    context = {
+        'tot_uren_per_project': tot_uren_per_project,
+        'cumtot_uren_per_project': cumtot_uren_per_project,
+        'tot_uren_per_project_mdw': tot_uren_per_project_mdw,
+        'cumtot_uren_per_project_mdw': cumtot_uren_per_project_mdw,
+        'tot_uren_per_project_mdw_per': tot_uren_per_project_mdw_per,
+        'cumtot_uren_per_project_mdw_per': cumtot_uren_per_project_mdw_per,
+    }
+
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'rapport.html', context=context)
