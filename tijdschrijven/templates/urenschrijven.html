@@ -4,10 +4,11 @@
 {% block extracss %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'plugins/jquery-ui-1.12.1/jquery-ui-flick.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/datatables/datatables-1.10.23.min.css' %}">
 {% endblock %}
 
 {% block extrajs %}
-
+<script src="{% static 'plugins/datatables/datatables-1.10.23.min.js' %}"></script>
 <script src="{% static 'plugins/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
 <script src="{% static 'plugins/weekpicker/jquery.weekpicker.js' %}"></script>
 <script src="{% static 'js/functions.js' %}"></script>
@@ -24,7 +25,7 @@
 
 <input type="text" id="weekPicker" value="{{ datum }}">
 
-<table class="table">
+<table class="table" id="tijdgrid">
     <thead class="thead-light">
       <tr>
         <th class="ts-projecttitel" scope="col">Project</th>
@@ -40,34 +41,42 @@
       {% for i in tijdgrid %}
 
         {% if forloop.counter0|divisibleby:7 %}
-
-          {% if forloop.counter0 > 0 %}
-            <td></td></tr>
-          {% endif %}
-
-          <tr><td>{{ i.Titel }}</td>
-
+          <tr><td class="ts-projecttitel">{{ i.Titel }}</td>
         {% endif %}
 
-        <td>
+
+        <td class='ts-gridcell' style='padding:0'>
             <input class="ts-urenvak" 
                   type="number" 
                   min="0"
                   max="24"
                   step="0.01"
                   id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
+                  abonnementdag = "{{ i.abonnementID }}"
+                  dagnummer = "{{ i.dagnummer }}"
                   name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
                   value="{% if i.TijdsDuur == None %}{% else %}{{ i.TijdsDuur }}{% endif %}">
         </td>
 
-        {% if forloop.last %}
-          <td></td></tr>
+        {% if forloop.counter|divisibleby:7 or forloop.last %}
+          <td class='ts-totaal'><input type="number" class="ts-abonnementtotaal" abonnement="{{ i.abonnementID }}" disabled></td></tr>
         {% endif %}
 
       {% endfor %}
 
+      <tr><th>Totaal</th>
+        {% for day in dagenindeweek %}
+          <td class='ts-totaal'><input type='number' class="ts-dagtotaal" weekdag="{{ forloop.counter0 }}" disabled></td>
+        {% endfor %}
+
+        <td class='ts-totaal'><input type='number' id="ts-eindtotaal" disabled></td>
+      </tr>
+
+
     </tbody>
     </table>
+
+    <span></span>
 
     <input type="submit" name='saveGrid' value="Submit">
 
