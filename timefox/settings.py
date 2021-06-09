@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from decouple import config, Csv
-from django.apps import AppConfig
+# from django.apps import AppConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -124,9 +124,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Redirect to home URL after login 
+# Redirect to home URL after login
 LOGIN_REDIRECT_URL = '/'
 
-# Zorgt ervoor dat reset password gecheckt kan worden. 
+# Zorgt ervoor dat reset password gecheckt kan worden.
 # Er moet nog email functionaliteit toegevoegd worden voordat dit echt werkt.
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
