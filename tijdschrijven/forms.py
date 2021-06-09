@@ -1,4 +1,10 @@
 from django import forms
+from django.forms import formset_factory
 
-# class tijdschrijfForm(forms.Form):
-    # testvak = forms.CharField(label='testvak', max_length=100)
+class tijdschrijfUnit(forms.Form):
+    persoonID = forms.IntegerField(widget=forms.HiddenInput)
+    projectactiviteitID = forms.IntegerField(widget=forms.HiddenInput)
+    datum = forms.DateField(widget=forms.HiddenInput)
+    uren = forms.DecimalField(decimal_places=2,max_digits=4,max_value=24)
+
+tijdschrijfSet = formset_factory(tijdschrijfUnit, extra=0)
