@@ -1,18 +1,18 @@
-Titel,Omschrijving,ParentID,AanmakerID,GeldigVan,GeldigTot,Actief
-Root,De basisnode,,,1900-01-01,2100-01-01,True
-Onderzoek,Onderzoeksopdrachten,1,22,1900-01-01,2100-01-01,True
-BI,BI Opdrachten,1,23,1900-01-01,2100-01-01,True
-Overhead,Niet opdrachtgerelateerde bezigheden,1,,1900-01-01,2100-01-01,True
-Afwezigheid,Registratie van verlof, ziekte etc,1,,1900-01-01,2100-01-01,True
-Intern,Intern,,1,1900-01-01,2100-01-01,True
-Ziekte,Ziekte uren,,1,1900-01-01,2100-01-01,True
-Verlof,Verlof uren,,1,1900-01-01,2100-01-01,True
-ADV,ADV uren,,1,1900-01-01,2100-01-01,True
-Project A,Werkzaamheden voor A,,23,2020-01-01,2021-12-31,True
-Project B,Werkzaamheden voor B,,1,2020-01-01,2021-12-31,True
-Project C,Werkzaamheden voor C,,1,2020-01-01,2021-12-31,True
-Project D,Werkzaamheden voor D,,2,2020-01-01,2021-12-31,True
-Project E,Werkzaamheden voor E,,2,2020-01-01,2021-12-31,True
-Project F,Werkzaamheden voor F,,3,2020-01-01,2021-01-31,False
-Project G,Werkzaamheden voor G,,3,2021-03-01,2021-12-31,True
-Project H,Werkzaamheden voor H,,4,2020-01-01,2020-12-31,False
+Titel,Omschrijving,ParentID,AanmakerID,GeldigVan,GeldigTot,Actief,groep
+Root,De basisnode,,1,1900-01-01,2100-01-01,True,1
+Onderzoek,Onderzoeksopdrachten,1,22,1900-01-01,2100-01-01,True,2
+BI,BI Opdrachten,1,23,1900-01-01,2100-01-01,True,3
+Overhead,Niet opdrachtgerelateerde bezigheden,1,1,1900-01-01,2100-01-01,True,4
+Afwezigheid,Registratie van verlof,,1,1900-01-01,2100-01-01,True,5
+Intern,Intern,,1,1900-01-01,2100-01-01,True,4
+Ziekte,Ziekte uren,,1,1900-01-01,2100-01-01,True,3
+Verlof,Verlof uren,,1,1900-01-01,2100-01-01,True,2
+ADV,ADV uren,,1,1900-01-01,2100-01-01,True,1
+Project A,Werkzaamheden voor A,,2,2020-01-01,2021-12-31,True,1
+Project B,Werkzaamheden voor B,,1,2020-01-01,2021-12-31,True,2
+Project C,Werkzaamheden voor C,,1,2020-01-01,2021-12-31,True,3
+Project D,Werkzaamheden voor D,,2,2020-01-01,2021-12-31,True,4
+Project E,Werkzaamheden voor E,,2,2020-01-01,2021-12-31,True,5
+Project F,Werkzaamheden voor F,,3,2020-01-01,2021-01-31,False,4
+Project G,Werkzaamheden voor G,,3,2021-03-01,2021-12-31,True,3
+Project H,Werkzaamheden voor H,,4,2020-01-01,2020-12-31,False,2

@@ -2,48 +2,33 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.forms.widgets import DateTimeInput
+# from django.conf import settings
+# https://learndjango.com/tutorials/django-best-practices-referencing-user-model
+# from django_cte import CTEManager
 
-from django.conf import settings #https://learndjango.com/tutorials/django-best-practices-referencing-user-model
-
-from django_cte import CTEManager
 
 class Project(models.Model):
-    Titel = models.CharField(max_length=88, null=True)
-    ProjectTemplateID = models.ForeignKey('ProjectTemplate', on_delete=models.RESTRICT, null=True, blank=True)
-    Omschrijving = models.CharField(max_length=256, null=True)
-    ParentID = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='Parent')
-    AanmakerID = models.IntegerField(null=True)
-    AanmaakDatum = models.DateField(auto_now_add=True)
-    MutatieDatum = models.DateField(auto_now=True)
-    GeldigVan = models.DateField()
-    GeldigTot = models.DateField()
-    Actief = models.BooleanField()
-    Personen = models.ManyToManyField('Persoon', through='Abonnement')
-    objects = CTEManager()
+    GROEPEN = ((1, 'overhead'),
+                (3, 'onderzoek'),
+                (4, 'database'),
+                (5, 'rapportage'),
+                (2, 'afwezigheid'))
+    groep = models.IntegerField(choices=GROEPEN)
+    titel = models.CharField(max_length=88, null=True)
+    omschrijving = models.CharField(max_length=256, null=True)
+    aanmaker = models.IntegerField(null=True)
+    # lees: https://stackoverflow.com/questions/41595364/fields-e304-reverse-accessor-clashes-in-django
+    aanmaakdatum = models.DateField(auto_now_add=True)
+    mutatiedatum = models.DateField(auto_now=True)
+    geldigvan = models.DateField()
+    geldigtot = models.DateField()
+    actief = models.BooleanField()
+    personen = models.ManyToManyField('persoon', through='abonnement')
 
     def __str__(self):
         """String for representing the Model object."""
-        return self.Titel
-
-    #rawquery voor de tree
-    def geef_project_tree(project_id):
-        query = '''
-        WITH RECURSIVE parents AS (
-            SELECT Project.*, 0 AS relative_depth
-            FROM Project
-            WHERE id = %s
-
-            UNION ALL
-
-            SELECT project.*, parents.relative_depth + 1
-            FROM project,parents
-            WHERE project.id = parents.parent_id
-        )
-        SELECT id, Titel, ParentID, relative_depth
-        FROM parents
-        ORDER BY relative_depth;
-        '''
-        return Project.objects.raw(query, [project_id])
+        return self.titel
 
     class Meta:
         verbose_name_plural = "projecten"
@@ -51,8 +36,8 @@ class Project(models.Model):
 
 class Persoon(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    Dienstverband = models.IntegerField(default=0)
-    Projecten = models.ManyToManyField(Project, through='Abonnement')
+    dienstverband = models.IntegerField(default=0)
+    projecten = models.ManyToManyField(Project, through='Abonnement')
 
     class Meta:
         verbose_name_plural = "personen"
@@ -60,6 +45,7 @@ class Persoon(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return self.user.username
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -69,123 +55,117 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 class Abonnement(models.Model):
-    ProjectID = models.ForeignKey(Project, on_delete=models.CASCADE)
-    PersoonID = models.ForeignKey(Persoon, on_delete=models.CASCADE) 
-    OriginalObjectID = models.IntegerField()
-    AanmaakDatum = models.DateField(auto_now_add=True)
-    Actief = models.BooleanField(default=True)
-    Zichtbaarheid = models.BooleanField(default=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    persoon = models.ForeignKey(Persoon, on_delete=models.CASCADE)
+    originalobject = models.IntegerField()
+    aanmaakDatum = models.DateField(auto_now_add=True)
+    actief = models.BooleanField(default=True)
+    zichtbaarheid = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "abonnementen"
 
     def __str__(self):
-        return self.PersoonID.user.first_name + " " + \
-            self.PersoonID.user.last_name + " - " +  \
-            self.ProjectID.Titel
-
-# class AccountSetting(models.Model):
-#     PersoonID = models.ForeignKey(User, on_delete=models.CASCADE)
-
-#     ACCOOUNTITEMS = (
-#         (1, 'Dienstverband'),
-#     )
-
-#     AccountItem = models.SmallIntegerField(
-#         choices=ACCOOUNTITEMS,
-#         blank=True,
-#         default=1,
-#         help_text='Acoount item',
-#     )
-#     Setting = models.IntegerField(null=True)
-#     AanmaakDatum = models.DateField(auto_now_add=True)
-#     GeldigVan = models.DateField()
-#     GeldigTot = models.DateField()   
-
-#     def __str__(self):
-#         """String for representing the Model object."""
-#         return self.AccountItem
+        return self.persoon.user.first_name + " " + \
+            self.persoon.user.last_name + " - " +  \
+            self.project.titel
 
 
-class ProjectTemplate(models.Model):
-    Titel = models.CharField(max_length=128)
-    Omschrijving = models.CharField(max_length=256)
+class Activiteit(models.Model):
+    activiteit = models.CharField(max_length=128)
+    omschrijving = models.CharField(max_length=256)
 
     def __str__(self):
         """String for representing the Model object."""
-        return self.Titel
+        return self.activiteit
+
+    class Meta:
+        verbose_name_plural = "activiteiten"
+
+
+class Project_Activiteit(models.Model):
+    activiteit = models.ForeignKey(Activiteit, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = "projectactiviteiten"
 
 
 class GeschrevenTijd(models.Model):
-    AbonnementID = models.ForeignKey('Abonnement', on_delete=models.CASCADE)
-    AanmaakDatum = models.DateField(auto_now_add=True)
-    Datum = models.DateField()
-    TijdsDuur = models.DecimalField(max_digits=4, decimal_places=2)
+    abonnement = models.ForeignKey('Abonnement', on_delete=models.CASCADE)
+    aanmaakdatum = models.DateField(auto_now_add=True)
+    datum = models.DateField()
+    tijdsduur = models.DecimalField(max_digits=4, decimal_places=2)
 
     class Meta:
         verbose_name_plural = "geschreven tijd"
 
-    def tijdoverzicht(datum,prs):
+    def tijdoverzicht(datum, prs):
         query = '''
-               with recursive weekdag 
+               with recursive weekdag
                     as (select 0 as id
                               ,%s as datum
                               ,0 as dagnummer
                          union all
                         select id+1
                               ,date(datum,'+1 day')
-                              ,dagnummer + 1 
+                              ,dagnummer + 1
                           from weekdag limit 7
                         )
                         select wkd.id
-                              ,prj.id as projectID
-                              ,abm.id as abonnementID
-                              ,tyd.id tijdID
-                              ,wkd.datum 
+                              ,prs.id as persoon
+                              ,prj.id as project
+                              ,prj.groep
+                              ,abm.id as abonnement
+                              ,tyd.id tijd
+                              ,wkd.datum
                               ,wkd.dagnummer
-                              ,tyd.TijdsDuur
-                              ,prj.Titel
+                              ,tyd.tijdsduur
+                              ,prj.titel
                           from weekdag wkd
 
                           join tijdschrijven_abonnement abm
                             on 1=1
 
                           join tijdschrijven_persoon prs
-                            on abm.PersoonID_id = prs.id
+                            on abm.persoon_id = prs.id
                            and prs.user_id = %s
 
                           join tijdschrijven_project prj
-                            on abm.ProjectID_id = prj.id
+                            on abm.project_id = prj.id
 
                           left join tijdschrijven_geschreventijd tyd
-                            on tyd.AbonnementID_id = abm.id
-                           and tyd.Datum = wkd.datum
+                            on tyd.abonnement_id = abm.id
+                           and tyd.datum = wkd.datum
 
-                         order by prj.id
+                         order by prj.groep
+                                 ,prj.id
                                  ,abm.id
                                  ,wkd.datum;
                 '''
-        return GeschrevenTijd.objects.raw(query, [datum,prs])
+        return GeschrevenTijd.objects.raw(query, [datum, prs])
 
     def __str__(self):
         """String for representing the Model object."""
-        return  self.AbonnementID.PersoonID.user.first_name + " " + \
-            self.AbonnementID.PersoonID.user.last_name + " - " +  \
-            self.AbonnementID.ProjectID.Titel + " - " +  \
-            str(self.Datum) + " - " + str(self.TijdsDuur)
+        return self.abonnement.persoon.user.first_name + " " + \
+            self.abonnement.persoon.user.last_name + " - " +  \
+            self.abonnement.project.titel + " - " +  \
+            str(self.datum) + " - " + str(self.tijdsduur)
 
     def datumsinweek(datum):
         query = '''
-                with recursive weekdag 
+                with recursive weekdag
                     as (select 1 as id, %s as datum
                         union all
-                        select id+1, date(datum,'+1 day') 
+                        select id+1, date(datum,'+1 day')
                         from weekdag limit 7
                         )
                         select wkd.id
-                              ,wkd.datum 
+                              ,wkd.datum
                         from weekdag wkd;
                 '''
         return GeschrevenTijd.objects.raw(query, [datum])
 
- 
+
+class Datumtabel(models.Model):
+    datum = models.DateField()

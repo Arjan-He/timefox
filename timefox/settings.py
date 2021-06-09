@@ -12,10 +12,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from decouple import config, Csv
+from django.apps import AppConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -37,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #de eigen applicaties
+    # de eigen applicaties
     'tijdschrijven.apps.TijdschrijvenConfig',
 
 ]
@@ -125,5 +127,6 @@ STATIC_URL = '/static/'
 # Redirect to home URL after login 
 LOGIN_REDIRECT_URL = '/'
 
-# Zorgt ervoor dat reset password gecheckt kan worden. Er moet nog email functionaliteit toegevoegd worden voordat dit echt werkt.
+# Zorgt ervoor dat reset password gecheckt kan worden. 
+# Er moet nog email functionaliteit toegevoegd worden voordat dit echt werkt.
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
