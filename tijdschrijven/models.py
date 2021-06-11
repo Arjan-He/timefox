@@ -102,46 +102,36 @@ class GeschrevenTijd(models.Model):
 
     def tijdoverzicht(datum, prs):
         query = '''
-               with recursive weekdag
-                    as (select 0 as id
-                              ,%s as datum
-                              ,0 as dagnummer
-                         union all
-                        select id+1
-                              ,date(datum,'+1 day')
-                              ,dagnummer + 1
-                          from weekdag limit 7
+                 with recursive weekdag
+                    as (select 1 as id, %s as datum
+                        union all
+                        select id+1, date(datum,'+1 day')
+                        from weekdag limit 7
                         )
                         select wkd.id
-                              ,prs.id as persoon
-                              ,prj.id as project
-                              ,prj.groep
-                              ,abm.id as abonnement
-                              ,tyd.id tijd
                               ,wkd.datum
-                              ,wkd.dagnummer
-                              ,tyd.tijdsduur
+                              ,abm.id as abonnementID
+                              ,prs.user_id
                               ,prj.titel
-                          from weekdag wkd
+                              ,tyd.tijdsduur
+                              ,tyd.id as tijdID
+                        from weekdag wkd
+                        
+                        join tijdschrijven_abonnement abm
+                          on 1=1
+                          
+                        join tijdschrijven_project prj
+                          on abm.project_id = prj.id
 
-                          join tijdschrijven_abonnement abm
-                            on 1=1
+                        join tijdschrijven_persoon prs
+                          on abm.persoon_id = prs.id
+                         and prs.user_id = %s 
 
-                          join tijdschrijven_persoon prs
-                            on abm.persoon_id = prs.id
-                           and prs.user_id = %s
-
-                          join tijdschrijven_project prj
-                            on abm.project_id = prj.id
-
-                          left join tijdschrijven_geschreventijd tyd
-                            on tyd.abonnement_id = abm.id
-                           and tyd.datum = wkd.datum
-
-                         order by prj.groep
-                                 ,prj.id
-                                 ,abm.id
-                                 ,wkd.datum;
+                        left join tijdschrijven_geschreventijd tyd
+                          on tyd.abonnement_id = abm.id
+                         and tyd.datum = wkd.datum
+                        
+                        order by groep;
                 '''
         return GeschrevenTijd.objects.raw(query, [datum, prs])
 
