@@ -9,10 +9,6 @@ from datetime import date
 from utils import verwerkUren
 from utils import projectFuncties
 from django.db.models import Sum
-from .forms import tijdschrijfUnit
-from django.forms import formset_factory
-
-# Create your views here.
 
 
 def index(request):
@@ -68,7 +64,7 @@ def abonnementen(request):
 
 class AbonnementCreate(CreateView):
     model = Abonnement
-    fields = ['PersoonID', 'ProjectID','OriginalObjectID']
+    fields = ['PersoonID', 'ProjectID', 'OriginalObjectID']
     success_url = reverse_lazy('abonnementen')
 
 
@@ -77,7 +73,7 @@ def urenschrijven(request):
 
     # Dit moet een veld worden in Persoon (laatst bezochte week)
     datum = date.today()
-    
+
     if request.method == 'POST':
         # form = tijdschrijfForm(request.POST)
         # if form.is_valid():
@@ -85,21 +81,14 @@ def urenschrijven(request):
 
         if request.POST['weeknummer']:
             weeknummer = request.POST['weeknummer'].split('week:')
-            weeknummer = [x.strip() for x in weeknummer] 
+            weeknummer = [x.strip() for x in weeknummer]
             datum, datum2 = dateFunctions.getDateRangeFromWeek(weeknummer[0], weeknummer[1])
 
     eerstedagweek = dateFunctions.fdow(datum)
-    laatstedagweek = dateFunctions.ldow(datum)
+    # laatstedagweek = dateFunctions.ldow(datum)
 
-    datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
+    # datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
     tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek, request.user.id)
-    tijdschrijfSet = formset_factory(tijdschrijfUnit, extra=0)
-    formset = tijdschrijfSet(initial=tijdgrid)
-
-    for form in formset:
-        deform = form.as_table()
-        print(form.as_table())
-    # formtabel = formset.as_table()
 
     # argument=2: de eerste twee letters van de dagen
     dagenInWeek = dateFunctions.daysInWeek(2)
@@ -107,11 +96,10 @@ def urenschrijven(request):
     context = {'dagenindeweek': dagenInWeek,
                'tijdgrid': tijdgrid,
                'datum': datum.isoformat()[0:10],
-               'formset': formset,
-               'formtabel': deform,
                }
 
     return render(request, 'urenschrijven.html', context=context)
+
 
 @login_required
 def rapport(request):
