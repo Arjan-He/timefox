@@ -35,9 +35,12 @@ a object{
 
 .ts-urenvak{
     width:100%;
-    height:100%;
+    height:32px;
     margin:0;
+    padding:5px;
     text-align: right;
+    border-color: #FEFEFE;
+    box-shadow: none;
 }
 
 .ts-eindtotaal, .ts-dagtotaal, .ts-abonnementtotaal, #ts-eindtotaal{
