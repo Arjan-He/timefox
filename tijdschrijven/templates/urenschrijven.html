@@ -30,7 +30,7 @@
       <tr>
         <th class="ts-projecttitel" scope="col">Project</th>
         {% for day in dagenindeweek %}
-        <th class="ts-dowtitel">{{day}}</th>
+        <th class="ts-dowtitel">{{ day }}</th>
         {% endfor %}
         <th>totaal</th>
       </tr>
@@ -40,28 +40,27 @@
 
       {% for i in tijdgrid %}
 
-        {% if forloop.counter0|divisibleby:7 %}
-          <tr><td class="ts-projecttitel">{{ i.Titel }}</td>
-        {% endif %}
+      {% if forloop.counter0|divisibleby:7 %}
+      <tr><td class="ts-projecttitel">{{ i.titel }}</td>
+      {% endif %}
 
+      <td class='ts-gridcell' style='padding:0'>
+          <input class="ts-urenvak" 
+                type="number" 
+                min="0"
+                max="24"
+                step="0.01"
+                id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
+                abonnementdag = "{{ i.abonnementID }}"
+                dagnummer = "{{ i.id }}"
+                name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
+                originalvalue="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}"
+                value="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}">
+      </td>
 
-        <td class='ts-gridcell' style='padding:0'>
-            <input class="ts-urenvak" 
-                  type="number" 
-                  min="0"
-                  max="24"
-                  step="0.01"
-                  id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
-                  abonnementdag = "{{ i.abonnementID }}"
-                  dagnummer = "{{ i.dagnummer }}"
-                  name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
-                  value="{% if i.TijdsDuur == None %}{% else %}{{ i.TijdsDuur }}{% endif %}">
-        </td>
-
-        {% if forloop.counter|divisibleby:7 or forloop.last %}
-          <td class='ts-totaal'><input type="number" class="ts-abonnementtotaal" abonnement="{{ i.abonnementID }}" disabled></td></tr>
-        {% endif %}
-
+      {% if forloop.counter|divisibleby:7 or forloop.last %}
+        <td class='ts-totaal'><input type="number" class="ts-abonnementtotaal" abonnement="{{ i.abonnementID }}" disabled></td></tr>
+      {% endif %}
       {% endfor %}
 
       <tr><th>Totaal</th>
@@ -71,12 +70,6 @@
 
         <td class='ts-totaal'><input type='number' id="ts-eindtotaal" disabled></td>
       </tr>
-      {% for x in formset %}
-      
-      {% endfor %}
-
-     
-      {{ deform }}
 
     </tbody>
     </table>
