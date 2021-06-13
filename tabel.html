@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <title>TimeFox - Tijdschrijven</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+
+  
+  
+
+  <link rel="shortcut icon" href="./tijdschrijven/static/favicon.ico">
+  <link rel="stylesheet" href="./tijdschrijven/static/plugins/bootstrap/bootstrap-4.5.3.min.css" >
+  
+  
+
+<link rel="stylesheet" href="./tijdschrijven/static/plugins/jquery-ui-1.12.1/jquery-ui-flick.css">
+<link rel="stylesheet" href="./tijdschrijven/static/plugins/datatables/datatables-1.10.23.min.css">
+
+
+  
+  <script src="./tijdschrijven/static/plugins/jquery/jquery-3.5.1.min.js"></script>
+  <!--<link rel="stylesheet" href="./tijdschrijven/static/css/styles.css">-->
+
+  
+<script src="./tijdschrijven/static/plugins/datatables/datatables-1.10.23.min.js"></script>
+<script src="./tijdschrijven/static/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+<script src="./tijdschrijven/static/plugins/weekpicker/jquery.weekpicker.js"></script>
+<!--<script src="./tijdschrijven/static/js/functions.js"></script>-->
+
+<style>
+body {
+    font-family:sans-serif;
+}
+
+/* input number, get rid of arrows
+   Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.ts-tablediv{
+    overflow-x:auto;
+}
+
+.ts-tabletimefox {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+.ts-tabletimefox thead tr {
+    border-bottom: 1px solid #66b3ff;
+    background-color: #cce6ff;
+}
+
+.ts-tabletimefox tfoot tr {
+    border-top: 1px solid #66b3ff;
+    background-color: #cce6ff;
+}
+
+.ts-headtitle{
+    width:52%;
+    text-align: left;
+}
+
+
+.ts-headdow, .ts-headtotaal{
+    width:6%;
+}
+
+.ts-rijactiviteit{
+    display:none; 
+}
+
+.ts-projecttitle{
+    font-weight:500;
+    padding-left: 10px;
+    border-bottom: 1px solid #f2f2f2;
+}
+.ts-activiteittitel {
+    padding-left: 30px;
+}
+
+.ts-gridcell{
+    border: 1px solid #a6a6a6;
+}
+
+.ts-urenvak{
+    width:95%;
+    height:24px;
+    text-align: center;
+    outline: none !important;
+    background-color: #fff;
+    box-shadow: none;
+    border:0;
+}
+
+.ts-dagtotaal, .ts-eindtotaal{
+    color: black;
+    background-color: #cce6ff;
+    font-weight: 600;
+}
+
+
+
+</style>
+
+</head>
+<body>
+
+<div class='ts-tablediv'>
+<table class='ts-tabletimefox'>
+    <thead>
+        <tr>
+            <th class="ts-headtitle">Project</th>
+            <th class="ts-headdow">ma</th>
+            <th class="ts-headdow">di</th>
+            <th class="ts-headdow">wo</th>
+            <th class="ts-headdow">do</th>
+            <th class="ts-headdow">vr</th>
+            <th class="ts-headdow">za</th>
+            <th class="ts-headdow">zo</th>
+            <th class="ts-headtotaal">totaal</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class='ts-totaal'>Totaal</th>
+            
+            <th class='ts-totaal'><input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="0" disabled></th>
+            <th class='ts-totaal'><input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="1" disabled></th>
+            <th class='ts-totaal'><input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="2" disabled></th>
+            <th class='ts-totaal'><input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="3" disabled></th>
+            <th class='ts-totaal'><input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="4" disabled></th>
+            <th class='ts-totaal'><input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="5" disabled></th>
+            <th class='ts-totaal'><input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="6" disabled></th>
+            <th class='ts-totaal'><input type='number' class="ts-urenvak ts-totaal ts-eindtotaal" disabled></th>
+        </tr>
+    </tfoot>
+    <tbody>
+        <tr id='p-1'>
+            <td class='ts-projecttitle'>een titel voor project</td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-totaal'>
+                <input type="number" class="ts-urenvak ts-totaal ts-abonnementtotaal" abonnement="14" disabled>
+            </td>
+        </tr>
+
+        <tr id='a-1-1' class='ts-rijactiviteit'>
+            <td class='ts-activiteittitel'>activiteit bij 1</td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-totaal'>
+                <input type="number" class="ts-urenvak ts-totaal ts-abonnementtotaal" abonnement="14" disabled>
+            </td>
+        </tr>
+
+        <tr id='p-2'>
+            <td class='ts-projecttitle'>project 2</td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-totaal'>
+                <input type="number" class="ts-urenvak ts-totaal ts-abonnementtotaal" abonnement="14" disabled>
+            </td>
+        </tr>
+
+        <tr id='a-2-1' class='a-2 ts-rijactiviteit'>
+            <td class='ts-activiteittitel'>activiteit bij 2</td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-gridcell'>
+                <input class="ts-urenvak" 
+                        type="number" 
+                        min="0"
+                        max="24"
+                        step="0.01"
+                        id="14-117" 
+                        abonnementdag = "14"
+                        dagnummer = "6"
+                        name="cell_14_0_June 12, 2021"
+                        originalvalue=""
+                        value="">
+            </td>
+            <td class='ts-totaal'>
+                <input type="number" class="ts-urenvak ts-totaal ts-abonnementtotaal" abonnement="14" disabled>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+</div>
+
+<script>
+
+$('.ts-projecttitle').on('click',function(){
+
+    let aid = '#a-'
+            + $(this).closest('tr')
+                     .attr('id')
+                     .split('-')[1]
+            +'-1';
+
+    let thedisplay = $(aid).css('display');
+
+    $('.ts-rijactiviteit').hide(500);
+
+    if(thedisplay=='none'){
+        $(aid).css('display','table-row');
+    }else{
+        $(aid).css('display','none');
+    }
+
+
+});
+
+
+</script>
+
+</body>
+</html>
