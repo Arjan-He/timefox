@@ -2,7 +2,7 @@ from csv import DictReader
 
 from django.core.management import BaseCommand
 
-from tijdschrijven.models import Project, Persoon, Abonnement, Datumtabel
+from tijdschrijven.models import Project, Persoon, Abonnement, Activiteit
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from datetime import date, timedelta, datetime
@@ -23,10 +23,10 @@ class Command(BaseCommand):
             proj.geldigtot = row['GeldigTot']
             proj.actief = row['Actief']
             proj.save()
-        print("Projecten toegevoegd.")           
+        print("Projecten toegevoegd.")   
 
+   
         print("Toevoegen gebruikers....")
-        
         for row in DictReader(open('./data/user_data.csv')):
             gebruiker = User.objects.create_user(row['Medewerker'], password=row['Password'])
             gebruiker.first_name = row['First']
