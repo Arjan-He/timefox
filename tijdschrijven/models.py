@@ -57,7 +57,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 class Abonnement(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     persoon = models.ForeignKey(Persoon, on_delete=models.CASCADE)
-    originalobject = models.IntegerField()
+    original_project_activiteit = models.IntegerField(null=True)
     aanmaakDatum = models.DateField(auto_now_add=True)
     actief = models.BooleanField(default=True)
     zichtbaarheid = models.BooleanField(default=True)
@@ -123,6 +123,12 @@ class GeschrevenTijd(models.Model):
                         join tijdschrijven_project prj
                           on abm.project_id = prj.id
 
+                        join tijdschrijven_project_activiteit pac
+                          on abm.project_id = pac.project_id
+
+                        join tijdschrijven_activiteit act
+                          on pac.activiteit_id = act.id
+
                         join tijdschrijven_persoon prs
                           on abm.persoon_id = prs.id
                          and prs.user_id = %s 
@@ -131,7 +137,9 @@ class GeschrevenTijd(models.Model):
                           on tyd.abonnement_id = abm.id
                          and tyd.datum = wkd.datum
                         
-                        order by groep;
+                        order by groep
+                                ,prj.id
+                                ,act.id
                 '''
         return GeschrevenTijd.objects.raw(query, [datum, prs])
 
