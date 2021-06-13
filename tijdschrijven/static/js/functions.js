@@ -52,14 +52,14 @@ $(function() {
 
     })
 
-    $('#tijdgrid').DataTable({
+/*     $('#tijdgrid').DataTable({
         "lengthMenu": [[-1], ["All"]],
         "lengthChange": false,
         "order": [],
         "bFilter": false,
         "bPaginate": false,
         "info": false,
-    });
+    }); */
 
     if($('#tijdgrid').length){
         
