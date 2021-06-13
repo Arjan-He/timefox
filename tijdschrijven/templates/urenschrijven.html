@@ -26,15 +26,34 @@
 <input type="text" id="weekPicker" value="{{ datum }}">
 
 <table class="table" id="tijdgrid">
+
+
+    {# first the header and footer #}
     <thead class="thead-light">
       <tr>
-        <th class="ts-projecttitel" scope="col">Project</th>
+        <th class="ts-headtitle">Project</th>
         {% for day in dagenindeweek %}
-        <th class="ts-dowtitel">{{ day }}</th>
+        <th class="ts-headdow">{{ day }}</th>
         {% endfor %}
-        <th>totaal</th>
+        <th class="ts-headtotaal">totaal</th>
       </tr>
     </thead>
+
+    <tfoot>
+      <tr>
+        <th class='ts-totaal'>Totaal</th>
+        {% for day in dagenindeweek %}
+        <th class='ts-totaal'>
+          <input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="{{ forloop.counter0 }}" disabled>
+        </th>
+        {% endfor %}
+        <th class='ts-totaal'>
+          <input type='number' class="ts-urenvak ts-totaal ts-eindtotaal" disabled>
+        </th>
+      </tr>
+    </tfoot>
+    {# end header and footer #}
+
 
     <tbody>
 
@@ -63,14 +82,6 @@
       {% endif %}
       {% endfor %}
 
-      <tr><th>Totaal</th>
-        {% for day in dagenindeweek %}
-          <td class='ts-totaal'><input type='number' class="ts-dagtotaal" weekdag="{{ forloop.counter0 }}" disabled></td>
-        {% endfor %}
-
-        <td class='ts-totaal'><input type='number' id="ts-eindtotaal" disabled></td>
-      </tr>
-
     </tbody>
     </table>
 
@@ -79,6 +90,5 @@
     <input type="submit" name='saveGrid' value="Submit">
 
 </form>
-
 
 {% endblock %}
