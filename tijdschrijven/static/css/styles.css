@@ -11,17 +11,11 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* input number, get rid of arrows
-   Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
+
 
 a object{
     pointer-events: none;
 }
-
-
 
 .sidebar-nav {
     margin-top: 20px;
@@ -29,44 +23,75 @@ a object{
     list-style: none;
 }
 
-.ts-gridcell{
-    padding:0;
-}
+/* TIMEWRITETABLE */
 
-.ts-urenvak{
-    width:100%;
-    height:32px;
-    margin:0;
-    padding:5px;
-    text-align: right;
-    border-color: #FEFEFE;
-    box-shadow: none;
-}
+/* input number, get rid of arrows
+   Firefox */
+   input[type=number] {
+    -moz-appearance: textfield;
+  }
+  
+  .ts-tablediv{
+      overflow-x:auto;
+  }
+  
+  .ts-tabletimefox {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  
+  .ts-tabletimefox thead tr {
+      border-bottom: 1px solid #66b3ff;
+      background-color: #cce6ff;
+  }
+  
+  .ts-tabletimefox tfoot tr {
+      border-top: 1px solid #66b3ff;
+      background-color: #cce6ff;
+  }
+  
+  .ts-headtitle{
+      width:52%;
+      text-align: left;
+  }
+  
+  
+  .ts-headdow, .ts-headtotaal{
+      width:6%;
+  }
+  
+  .ts-rijactiviteit{
+      display:none; 
+  }
+  
+  .ts-projecttitle{
+      font-weight:500;
+      padding-left: 10px;
+      border-bottom: 1px solid #f2f2f2;
+  }
+  .ts-activiteittitel {
+      padding-left: 30px;
+  }
+  
+  .ts-gridcell{
+      border: 1px solid #a6a6a6;
+  }
+  
+  .ts-urenvak{
+      width:95%;
+      height:24px;
+      text-align: center;
+      outline: none !important;
+      background-color: #fff;
+      box-shadow: none;
+      border:0;
+  }
+  
+  .ts-dagtotaal, .ts-eindtotaal{
+      color: black;
+      background-color: #cce6ff;
+      font-weight: 600;
+  }
 
-.ts-eindtotaal, .ts-dagtotaal, .ts-abonnementtotaal, #ts-eindtotaal{
-    width:100%;
-    max-width: 50px;
-    height:100%;
-    margin:0;
-    text-align: right;
-    border:0;
-}
-
-input:disabled {
-    color: black;
-    background-color: white;
-    font-weight: 600;
-}
-
-.ts-totaal{
-    text-align: right;
-    padding:0;
-}
-
-.ts-dowtitel{
-    text-align: center;
-}
-
-.ts-projecttitel{
-    width: 50%;
-}
+  /* TIMEWRITETABLE */ 
