@@ -54,38 +54,68 @@
     </tfoot>
     {# end header and footer #}
 
+    {% for i in tijdgrid %}
+
+          <!-- {% ifchanged i.activiteitID %}
+            {% if not forloop.first %}
+              <td></td></tr>
+            {% endif %}
+          {% endifchanged %} -->
+
+          {% ifchanged i.groepID %}
+            <tr>
+              <td>groep</td>
+              {% for day in dagenindeweek %}
+                <td></td>
+              {% endfor %}
+              <td>tot</td>
+            </tr>
+          {% endifchanged %}
+
+          {% ifchanged i.projectID %}
+            <tr>
+            <td>{{ i.titel }}</td>
+            {% for day in dagenindeweek %}
+              <td></td>
+            {% endfor %}
+            <td>tot</td>
+            </tr>
+          {% endifchanged %}
+
+          {% ifchanged i.projectactiviteitID %}
+            <tr><td>{{ i.projectactiviteitID }}</td>
+              {% for day in dagenindeweek %}
+              <td></td>
+            {% endfor %}
+            <td>tot</td>
+            </tr>
+          {% endifchanged %}
+
+          <!-- <td class='ts-gridcell' style='padding:0'>
+            <input class="ts-urenvak" 
+                  type="number" 
+                  min="0"
+                  max="24"
+                  step="0.01"
+                  id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
+                  abonnementdag = "{{ i.abonnementID }}"
+                  dagnummer = "{{ i.id }}"
+                  name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
+                  originalvalue="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}"
+                  value="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}">
+          </td> -->
+
+          <!-- {% if forloop.last %}
+            <td></td></tr>
+          {% endif %} -->
+
+    {% endfor %}
 
     <tbody>
-
-      {% for i in tijdgrid %}
-
-      {% if forloop.counter0|divisibleby:7 %}
-      <tr><td class="ts-projecttitel">{{ i.titel }}</td>
-      {% endif %}
-
-      <td class='ts-gridcell' style='padding:0'>
-          <input class="ts-urenvak" 
-                type="number" 
-                min="0"
-                max="24"
-                step="0.01"
-                id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
-                abonnementdag = "{{ i.abonnementID }}"
-                dagnummer = "{{ i.id }}"
-                name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
-                originalvalue="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}"
-                value="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}">
-      </td>
-
-      {% if forloop.counter|divisibleby:7 or forloop.last %}
-        <td class='ts-totaal'><input type="number" class="ts-abonnementtotaal" abonnement="{{ i.abonnementID }}" disabled></td></tr>
-      {% endif %}
-      {% endfor %}
-
     </tbody>
     </table>
 
-    <span></span>
+
 
     <input type="submit" name='saveGrid' value="Submit">
 
