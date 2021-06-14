@@ -16,7 +16,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 class GeschrevenTijdAdmin(admin.ModelAdmin):
-    list_display = ('abonnement', 'datum', 'aanmaakdatum', 'tijdsduur', )
+    list_display = ('persoon', 'datum', 'aanmaakdatum', 'tijdsduur', )
 
 
 admin.site.register(Project, ProjectAdmin)
