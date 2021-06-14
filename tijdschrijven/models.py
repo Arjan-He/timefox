@@ -92,7 +92,7 @@ class Project_Activiteit(models.Model):
 
 
 class GeschrevenTijd(models.Model):
-    persoon = models.ForeignKey('Persoon', on_delete=models.CASCADE)
+    persoon = models.ForeignKey(Persoon, on_delete=models.CASCADE)
     projectactiviteit = models.ForeignKey('Project_Activiteit', on_delete=models.CASCADE)
     aanmaakdatum = models.DateField(auto_now_add=True)
     datum = models.DateField()
