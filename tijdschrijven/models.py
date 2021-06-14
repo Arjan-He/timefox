@@ -108,11 +108,18 @@ class GeschrevenTijd(models.Model):
                         select id+1, date(datum,'+1 day')
                         from weekdag limit 7
                         )
-                        select wkd.id
+                        select wkd.id dagID
                               ,wkd.datum
                               ,abm.id as abonnementID
                               ,prs.user_id
+                              ,prj.id projectID
                               ,prj.titel
+                              ,prj.groep groepID
+                              ,lag(prj.groep) OVER (ORDER BY prj.groep
+                                                            ,prj.id
+                                                            ,act.id
+                                                            ,wkd.datum
+                                                    ) as groepIDvorig
                               ,tyd.tijdsduur
                               ,tyd.id as tijdID
                         from weekdag wkd
@@ -137,9 +144,10 @@ class GeschrevenTijd(models.Model):
                           on tyd.abonnement_id = abm.id
                          and tyd.datum = wkd.datum
                         
-                        order by groep
+                        order by prj.groep
                                 ,prj.id
                                 ,act.id
+                                ,wkd.datum
                 '''
         return GeschrevenTijd.objects.raw(query, [datum, prs])
 
