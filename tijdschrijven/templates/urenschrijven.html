@@ -44,54 +44,57 @@
         <th class='ts-totaal'>Totaal</th>
         {% for day in dagenindeweek %}
         <th class='ts-totaal'>
-          <input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="{{ forloop.counter0 }}" disabled>
+          <input type='number' class="ts-urenvak ts-dagtotaal" weekdag="{{ forloop.counter0 }}" disabled>
         </th>
         {% endfor %}
         <th class='ts-totaal'>
-          <input type='number' class="ts-urenvak ts-totaal ts-eindtotaal" disabled>
+          <input type='number' class="ts-urenvak ts-eindtotaal" disabled>
         </th>
       </tr>
     </tfoot>
+    <tbody>
     {# end header and footer #}
 
     {% for i in tijdgrid %}
 
-          <!-- {% ifchanged i.activiteitID %}
+      {# close the open tablerow  but not at beginning loop (no row present)  #}
+          {% ifchanged i.activiteitID %}
             {% if not forloop.first %}
               <td></td></tr>
             {% endif %}
-          {% endifchanged %} -->
+          {% endifchanged %}
 
           {% ifchanged i.groepID %}
+          {% if not forloop.first %}
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          {% endif %}
             <tr>
-              <td>groep</td>
+              <td class='ts-groeptitle'>groep</td>
               {% for day in dagenindeweek %}
                 <td></td>
               {% endfor %}
-              <td>tot</td>
+              <td></td>
             </tr>
           {% endifchanged %}
 
           {% ifchanged i.projectID %}
-            <tr>
-            <td>{{ i.titel }}</td>
+            <tr id='p-{{ i.projectID }}''>
+            <td class='ts-projecttitle'>{{ i.titel }}</td>
             {% for day in dagenindeweek %}
               <td></td>
             {% endfor %}
-            <td>tot</td>
+            <td class='ts-totaal'>
+                <input type="number" class="ts-urenvak ts-abonnementtotaal" abonnement="14" disabled>
+            </td>
             </tr>
           {% endifchanged %}
 
           {% ifchanged i.projectactiviteitID %}
-            <tr><td>{{ i.activiteit }}</td>
-              {% for day in dagenindeweek %}
-              <td></td>
-            {% endfor %}
-            <td>tot</td>
-            </tr>
+            <tr id='a-{{ i.projectID }}-{{ i.activiteitID }}' class='ts-rijactiviteit p-{{ i.projectID }}'>
+              <td class='ts-activiteittitel'>{{ i.activiteit }}</td>
           {% endifchanged %}
 
-          <!-- <td class='ts-gridcell' style='padding:0'>
+          <td class='ts-gridcell' style='padding:0'>
             <input class="ts-urenvak" 
                   type="number" 
                   min="0"
@@ -103,15 +106,15 @@
                   name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
                   originalvalue="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}"
                   value="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}">
-          </td> -->
+          </td>
 
-          <!-- {% if forloop.last %}
+          {% if forloop.last %}
             <td></td></tr>
-          {% endif %} -->
+          {% endif %}
 
     {% endfor %}
 
-    <tbody>
+
     </tbody>
     </table>
 

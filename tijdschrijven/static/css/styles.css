@@ -27,7 +27,7 @@ a object{
 
 /* input number, get rid of arrows
    Firefox */
-   input[type=number] {
+  input[type=number] {
     -moz-appearance: textfield;
   }
   
@@ -65,13 +65,17 @@ a object{
       display:none; 
   }
   
+  .ts-groeptitle{
+      text-transform: uppercase;
+  }
+
   .ts-projecttitle{
-      font-weight:500;
-      padding-left: 10px;
+      font-weight:600;
+      text-indent:20px;
       border-bottom: 1px solid #f2f2f2;
   }
   .ts-activiteittitel {
-      padding-left: 30px;
+      text-indent:40px;
   }
   
   .ts-gridcell{

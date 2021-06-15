@@ -33,6 +33,34 @@ $(function() {
     //        }
     //  });
 
+    $('.ts-projecttitle').on('click',function(){
+
+        //haal project hebben activiteit met id = 1 (algemeen)
+        let projectID = $(this).closest('tr')
+                                .attr('id')
+                                .split('-')[1];
+
+        let firstActID = '#a-'+projectID+'-1';
+        
+        //sla de display-status van de eerste activiteit op
+        let thedisplay = $(firstActID).css('display');
+        
+        //hide alle activiteiten
+        $('.ts-rijactiviteit').hide(100);
+    
+        //alle activiteiten hebben een class p-{hunprojectid}
+        let allProjectAct = '.p-'+projectID
+
+        //en toggle alle activiteiten van het geklikte project
+        if(thedisplay=='none'){
+            $(allProjectAct).css('display','table-row');
+        }else{
+            $(allProjectAct).css('display','none');
+        }
+    
+    
+    });
+
     $('.ts-urenvak').keypress(function(event) {
         //Allow only backspace and delete
         if (event.keyCode != 46 && event.keyCode != 8) {
@@ -101,5 +129,3 @@ function eindtotaal(){
     });
     $("#ts-eindtotaal").val(som);
 }
-
-
