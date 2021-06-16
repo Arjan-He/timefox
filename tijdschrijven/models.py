@@ -113,8 +113,16 @@ class GeschrevenTijd(models.Model):
                               ,abm.id as abonnementID
                               ,prs.user_id
                               ,prj.titel
+                              ,prj.id projectID
                               ,tyd.tijdsduur
                               ,tyd.id as tijdID
+                              ,prj.groep
+                              ,lag(prj.groep)
+                                    over (partition by prs.user_id
+                                    order by prj.groep
+                                            ,prj.id
+                                            ,act.id
+                                            ,wkd.datum)GroepVorig
                         from weekdag wkd
                         
                         join tijdschrijven_abonnement abm
@@ -131,15 +139,16 @@ class GeschrevenTijd(models.Model):
 
                         join tijdschrijven_persoon prs
                           on abm.persoon_id = prs.id
-                         and prs.user_id = %s 
+                         and prs.user_id = %s
 
                         left join tijdschrijven_geschreventijd tyd
                           on tyd.abonnement_id = abm.id
                          and tyd.datum = wkd.datum
                         
-                        order by groep
+                        order by prj.groep
                                 ,prj.id
                                 ,act.id
+                                ,wkd.datum
                 '''
         return GeschrevenTijd.objects.raw(query, [datum, prs])
 
