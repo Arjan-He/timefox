@@ -8,13 +8,19 @@ from django.forms.widgets import DateTimeInput
 # from django_cte import CTEManager
 
 
+class Projectgroep(models.Model):
+    groep = models.CharField(max_length=32)
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.groep
+
+    class Meta:
+        verbose_name_plural = "projectgroepen"
+
+
 class Project(models.Model):
-    GROEPEN = ((1, 'overhead'),
-                (3, 'onderzoek'),
-                (4, 'dwh'),
-                (5, 'reporting'),
-                (2, 'afwezigheid'))
-    groep = models.IntegerField(choices=GROEPEN)
+    groep = models.ForeignKey(Projectgroep, on_delete=models.CASCADE)
     titel = models.CharField(max_length=88, null=True)
     omschrijving = models.CharField(max_length=256, null=True)
     aanmaker = models.IntegerField(null=True)
@@ -118,10 +124,11 @@ class GeschrevenTijd(models.Model):
                               ,prs.user_id
                               ,prj.id projectID
                               ,prj.titel
-                              ,prj.groep groepID
+                              ,prj.groep_id groepID
+                              ,pjg.groep
                               ,tyd.tijdsduur
                               ,tyd.id as tijdID
-                              ,prj.groep
+
 
                         from weekdag wkd
                         
@@ -130,6 +137,9 @@ class GeschrevenTijd(models.Model):
                           
                         join tijdschrijven_project prj
                           on abm.project_id = prj.id
+
+                        join tijdschrijven_projectgroep pjg
+                          on prj.groep_id = pjg.id
 
                         join tijdschrijven_project_activiteit pac
                           on abm.project_id = pac.project_id
@@ -146,7 +156,7 @@ class GeschrevenTijd(models.Model):
                          and tyd.projectactiviteit_id = pac.id
                          and tyd.datum = wkd.datum
                         
-                        order by prj.groep
+                        order by prj.groep_id
                                 ,prj.id
                                 ,pac.id
                                 ,wkd.datum
