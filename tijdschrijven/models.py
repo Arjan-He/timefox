@@ -11,8 +11,8 @@ from django.forms.widgets import DateTimeInput
 class Project(models.Model):
     GROEPEN = ((1, 'overhead'),
                 (3, 'onderzoek'),
-                (4, 'database'),
-                (5, 'rapportage'),
+                (4, 'dwh'),
+                (5, 'reporting'),
                 (2, 'afwezigheid'))
     groep = models.IntegerField(choices=GROEPEN)
     titel = models.CharField(max_length=88, null=True)
@@ -92,7 +92,8 @@ class Project_Activiteit(models.Model):
 
 
 class GeschrevenTijd(models.Model):
-    abonnement = models.ForeignKey('Abonnement', on_delete=models.CASCADE)
+    persoon = models.ForeignKey(Persoon, on_delete=models.CASCADE)
+    projectactiviteit = models.ForeignKey('Project_Activiteit', on_delete=models.CASCADE)
     aanmaakdatum = models.DateField(auto_now_add=True)
     datum = models.DateField()
     tijdsduur = models.DecimalField(max_digits=4, decimal_places=2)
@@ -108,12 +109,16 @@ class GeschrevenTijd(models.Model):
                         select id+1, date(datum,'+1 day')
                         from weekdag limit 7
                         )
-                        select wkd.id
+                        select wkd.id 
                               ,wkd.datum
                               ,abm.id as abonnementID
+                              ,act.id as activiteitID
+                              ,pac.id as projectactiviteitID
+                              ,act.activiteit
                               ,prs.user_id
-                              ,prj.titel
                               ,prj.id projectID
+                              ,prj.titel
+                              ,prj.groep groepID
                               ,tyd.tijdsduur
                               ,tyd.id as tijdID
                               ,prj.groep
@@ -142,21 +147,31 @@ class GeschrevenTijd(models.Model):
                          and prs.user_id = %s
 
                         left join tijdschrijven_geschreventijd tyd
-                          on tyd.abonnement_id = abm.id
+                          on tyd.persoon_id = prs.id
                          and tyd.datum = wkd.datum
                         
                         order by prj.groep
                                 ,prj.id
+<<<<<<< HEAD
                                 ,act.id
+=======
+                                ,pac.id
+>>>>>>> d6d5ff4ca2104e4fe49273c6c510becc1819ac01
                                 ,wkd.datum
                 '''
         return GeschrevenTijd.objects.raw(query, [datum, prs])
 
+                            #   ,lag(prj.groep) OVER (ORDER BY prj.groep
+                            #                                 ,prj.id
+                            #                                 ,act.id
+                            #                                 ,wkd.datum
+                            #                         ) as groepIDvorig
+
     def __str__(self):
         """String for representing the Model object."""
-        return self.abonnement.persoon.user.first_name + " " + \
-            self.abonnement.persoon.user.last_name + " - " +  \
-            self.abonnement.project.titel + " - " +  \
+        return self.persoon.user.first_name + " " + \
+            self.persoon.user.last_name + " - " +  \
+            self.projectactiviteit.project.titel + " - " +  \
             str(self.datum) + " - " + str(self.tijdsduur)
 
     def datumsinweek(datum):

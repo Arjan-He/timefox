@@ -44,48 +44,81 @@
         <th class='ts-totaal'>Totaal</th>
         {% for day in dagenindeweek %}
         <th class='ts-totaal'>
-          <input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="{{ forloop.counter0 }}" disabled>
+          <input type='number' class="ts-urenvak ts-dagtotaal" weekdag="{{ forloop.counter0 }}" disabled>
         </th>
         {% endfor %}
         <th class='ts-totaal'>
-          <input type='number' class="ts-urenvak ts-totaal ts-eindtotaal" disabled>
+          <input type='number' class="ts-urenvak ts-eindtotaal" disabled>
         </th>
       </tr>
     </tfoot>
+    <tbody>
     {# end header and footer #}
 
+    {% for i in tijdgrid %}
 
-    <tbody>
+      {# close the open tablerow  but not at beginning loop (no row present)  #}
+          {% ifchanged i.activiteitID %}
+            {% if not forloop.first %}
+              <td></td></tr>
+            {% endif %}
+          {% endifchanged %}
 
-      {% for i in tijdgrid %}
+          {% ifchanged i.groepID %}
+          {% if not forloop.first %}
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          {% endif %}
+            <tr>
+              <td class='ts-groeptitle'>groep</td>
+              {% for day in dagenindeweek %}
+                <td></td>
+              {% endfor %}
+              <td></td>
+            </tr>
+          {% endifchanged %}
 
-      {% if forloop.counter0|divisibleby:7 %}
-      <tr><td class="ts-projecttitel">{{ i.titel }}</td>
-      {% endif %}
+          {% ifchanged i.projectID %}
+            <tr id='p-{{ i.projectID }}''>
+            <td class='ts-projecttitle'>{{ i.titel }}</td>
+            {% for day in dagenindeweek %}
+              <td></td>
+            {% endfor %}
+            <td class='ts-totaal'>
+                <input type="number" class="ts-urenvak ts-abonnementtotaal" abonnement="14" disabled>
+            </td>
+            </tr>
+          {% endifchanged %}
 
-      <td class='ts-gridcell' style='padding:0'>
-          <input class="ts-urenvak" 
-                type="number" 
-                min="0"
-                max="24"
-                step="0.01"
-                id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
-                abonnementdag = "{{ i.abonnementID }}"
-                dagnummer = "{{ i.id }}"
-                name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
-                originalvalue="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}"
-                value="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}">
-      </td>
+          {% ifchanged i.projectactiviteitID %}
+            <tr id='a-{{ i.projectID }}-{{ i.activiteitID }}' class='ts-rijactiviteit p-{{ i.projectID }}'>
+              <td class='ts-activiteittitel'>{{ i.activiteit }}</td>
+          {% endifchanged %}
 
-      {% if forloop.counter|divisibleby:7 or forloop.last %}
-        <td class='ts-totaal'><input type="number" class="ts-abonnementtotaal" abonnement="{{ i.abonnementID }}" disabled></td></tr>
-      {% endif %}
-      {% endfor %}
+          <td class='ts-gridcell' style='padding:0'>
+            <input class="ts-urenvak" 
+                  type="number" 
+                  min="0"
+                  max="24"
+                  step="0.01"
+                  id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
+                  abonnementdag = "{{ i.abonnementID }}"
+                  dagnummer = "{{ i.id }}"
+                  name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
+                  originalvalue="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}"
+                  value="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}">
+          </td>
+
+          {% if forloop.last %}
+            <td></td></tr>
+          {% endif %}
+
+    {% endfor %}
+
 
     </tbody>
     </table>
 
-    <span></span>
+
 
     <input type="submit" name='saveGrid' value="Submit">
 

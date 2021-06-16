@@ -39,7 +39,8 @@ De app tijdschrijven zorgt voor de registratie van uren. In de app zijn de volge
 Zie ook de file **requirements.txt**. Deze kun je ook uitvoeren via PIP. `pip install -r requirements.txt`
 
 Met het uitvoeren van het script **load_model_data.py** kan de database initieel worden gevuld met projecten.
-Deze kan worden aangeroep via `manage.py load_model_data` 
+Deze kan worden aangeroep via `manage.py load_model_data`. 
+Aanvullende data met `manage.py load_dates` en `manage.py load_activiteiten`
 
 # Beheer
 De productieserver draait met de volgende configuratie:
