@@ -109,7 +109,7 @@ class GeschrevenTijd(models.Model):
                         select id+1, date(datum,'+1 day')
                         from weekdag limit 7
                         )
-                        select wkd.id 
+                        select wkd.id
                               ,wkd.datum
                               ,abm.id as abonnementID
                               ,act.id as activiteitID
@@ -122,12 +122,7 @@ class GeschrevenTijd(models.Model):
                               ,tyd.tijdsduur
                               ,tyd.id as tijdID
                               ,prj.groep
-                              ,lag(prj.groep)
-                                    over (partition by prs.user_id
-                                    order by prj.groep
-                                            ,prj.id
-                                            ,act.id
-                                            ,wkd.datum)GroepVorig
+
                         from weekdag wkd
                         
                         join tijdschrijven_abonnement abm
@@ -148,15 +143,12 @@ class GeschrevenTijd(models.Model):
 
                         left join tijdschrijven_geschreventijd tyd
                           on tyd.persoon_id = prs.id
+                         and tyd.projectactiviteit_id = pac.id
                          and tyd.datum = wkd.datum
                         
                         order by prj.groep
                                 ,prj.id
-<<<<<<< HEAD
-                                ,act.id
-=======
                                 ,pac.id
->>>>>>> d6d5ff4ca2104e4fe49273c6c510becc1819ac01
                                 ,wkd.datum
                 '''
         return GeschrevenTijd.objects.raw(query, [datum, prs])
@@ -191,3 +183,18 @@ class GeschrevenTijd(models.Model):
 
 class Datumtabel(models.Model):
     datum = models.DateField()
+
+# cte vervangen door datumtabel
+# select wkd.datum
+# ,abm.id as abonnementID
+# 	  , case 
+# 					when STRFTIME('%w',wkd.datum)='0' then 7
+# 					else STRFTIME('%w',wkd.datum)
+# 				 end as id	 
+#  from tijdschrijven_datumtabel wkd 
+ 
+#                         join tijdschrijven_abonnement abm
+#                           on 1=1
+ 
+# where wkd.datum >= '2021-01-04'
+#   and wkd.datum < date('2021-01-04','+7 day')
