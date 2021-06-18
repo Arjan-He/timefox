@@ -4,6 +4,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from utils import dateFunctions
+from .forms import frmGridCell
+from django.forms import formset_factory
 # import datetime
 from datetime import date
 from utils import verwerkUren
@@ -90,12 +92,16 @@ def urenschrijven(request):
     # datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
     tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek, request.user.id)
 
+    gridFormSet = formset_factory(frmGridCell, extra=0)
+    formSetGrid = gridFormSet(initial=tijdgrid)
+
     # argument=2: de eerste twee letters van de dagen
     dagenInWeek = dateFunctions.daysInWeek(2)
 
     context = {'dagenindeweek': dagenInWeek,
                'tijdgrid': tijdgrid,
                'datum': datum.isoformat()[0:10],
+               'formSetGrid':formSetGrid,
                }
 
     return render(request, 'urenschrijven.html', context=context)
