@@ -1,6 +1,8 @@
-from tijdschrijven.models import GeschrevenTijd, Abonnement
+from django.contrib.auth.decorators import login_required
+from tijdschrijven.models import GeschrevenTijd, Project_Activiteit,Persoon
 
-def walkTheGrid(formfields):
+
+def walkTheGrid(formfields,usr):
 
     velden = []
     token = True
@@ -18,19 +20,20 @@ def walkTheGrid(formfields):
             x.append(formfields[row])
 
             # en evalueer het in de functie schrijfUrenNaarDb
-            schrijfUrenNaarDb(x)
+            schrijfUrenNaarDb(x,usr)
             
     return True
 
 
-def schrijfUrenNaarDb(urenArray):
+
+def schrijfUrenNaarDb(urenArray,usr):
 
     tijdID = int(urenArray[2])
     tijd = urenArray[4].strip()
     tijd = 0 if tijd == '' else float(tijd)
 
     # als er geen tijd is gevuld, tijd is nul
-    if tijd==0:
+    if tijd == 0:
 
         # er is een record, tijd is leeg, dan weggooien
         if tijdID != 0:
@@ -40,14 +43,15 @@ def schrijfUrenNaarDb(urenArray):
     if tijd > 0:
 
         # er is nog geen record, aanmaken
-        if tijdID == 0: 
-            aboID = int(urenArray[1])
-            GeschrevenTijd.objects.create(AbonnementID=Abonnement.objects.get(id=aboID),
-                                          Datum=urenArray[3],
-                                          TijdsDuur=tijd)
+        if tijdID == 0:
+            paID = int(urenArray[1])
+            GeschrevenTijd.objects.create(projectactiviteit=Project_Activiteit.objects.get(pk=paID),
+                                          persoon=Persoon.objects.get(pk=usr),
+                                          datum=urenArray[3],
+                                          tijdsduur=tijd)
         
         # en anders updaten
         else:
-            GeschrevenTijd.objects.filter(id=tijdID).update(TijdsDuur=tijd)
+            GeschrevenTijd.objects.filter(id=tijdID).update(tijdsduur=tijd)
 
     return True

@@ -57,7 +57,6 @@ class ProjectDelete(DeleteView):
     success_url = reverse_lazy('projecten')
 
 
-@login_required
 def abonnementen(request):
     abonnementen = Abonnement.objects.all()
     context = {'abonnementen': abonnementen, }
@@ -79,7 +78,7 @@ def urenschrijven(request):
     if request.method == 'POST':
         # form = tijdschrijfForm(request.POST)
         # if form.is_valid():
-        verwerkUren.walkTheGrid(request.POST)
+        verwerkUren.walkTheGrid(request.POST, request.user.id)
 
         if request.POST['weeknummer']:
             weeknummer = request.POST['weeknummer'].split('week:')
@@ -90,7 +89,7 @@ def urenschrijven(request):
     # laatstedagweek = dateFunctions.ldow(datum)
 
     # datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
-    tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek, request.user.id)
+    tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek.isoformat()[0:10], request.user.id)
 
     gridFormSet = formset_factory(frmGridCell, extra=0)
     formSetGrid = gridFormSet(initial=tijdgrid)

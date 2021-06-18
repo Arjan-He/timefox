@@ -66,10 +66,20 @@
 
           {% ifchanged i.groepID %}
           {% if not forloop.first %}
-            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
           {% endif %}
             <tr>
-              <td class='ts-groeptitle'>groep</td>
+              <td class='ts-groeptitle'>{{ i.groep }}</td>
               {% for day in dagenindeweek %}
                 <td></td>
               {% endfor %}
@@ -100,10 +110,10 @@
                   min="0"
                   max="24"
                   step="0.01"
-                  id="{{ i.abonnementID }}-{{ forloop.counter0 }}" 
-                  abonnementdag = "{{ i.abonnementID }}"
+                  id="{{ i.projectactiviteitID }}-{{ forloop.counter0 }}" 
+                  abonnementdag = "{{ i.projectactiviteitID }}"
                   dagnummer = "{{ i.id }}"
-                  name="cell_{{ i.abonnementID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum }}"
+                  name="cell_{{ i.projectactiviteitID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum|date:'Y-m-d' }}"
                   originalvalue="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}"
                   value="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}">
           </td>

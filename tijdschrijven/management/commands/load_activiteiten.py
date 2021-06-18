@@ -12,8 +12,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         if Activiteit.objects.exists():
-             print('Let op!!! Er staan al activiteiten in de database...')
-             print('Voor een schone start, kun je Sqlite verwijderen en de migraties opnieuw uitvoeren.')
+            print('Let op!!! Er staan al activiteiten in de database...')
+            print('Voor een schone start, kun je Sqlite verwijderen en de migraties opnieuw uitvoeren.')
 
         print("Laden activiteiten ...")
         for row in DictReader(open('./data/activiteit_data.csv')):

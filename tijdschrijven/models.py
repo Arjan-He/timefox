@@ -8,13 +8,19 @@ from django.forms.widgets import DateTimeInput
 # from django_cte import CTEManager
 
 
+class Projectgroep(models.Model):
+    groep = models.CharField(max_length=32)
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.groep
+
+    class Meta:
+        verbose_name_plural = "projectgroepen"
+
+
 class Project(models.Model):
-    GROEPEN = ((1, 'overhead'),
-                (3, 'onderzoek'),
-                (4, 'dwh'),
-                (5, 'reporting'),
-                (2, 'afwezigheid'))
-    groep = models.IntegerField(choices=GROEPEN)
+    groep = models.ForeignKey(Projectgroep, on_delete=models.CASCADE)
     titel = models.CharField(max_length=88, null=True)
     omschrijving = models.CharField(max_length=256, null=True)
     aanmaker = models.IntegerField(null=True)
@@ -109,7 +115,7 @@ class GeschrevenTijd(models.Model):
                         select id+1, date(datum,'+1 day')
                         from weekdag limit 7
                         )
-                        select wkd.id 
+                        select wkd.id
                               ,wkd.datum
                               ,abm.id as abonnementID
                               ,act.id as activiteitID
@@ -118,9 +124,12 @@ class GeschrevenTijd(models.Model):
                               ,prs.user_id
                               ,prj.id projectID
                               ,prj.titel
-                              ,prj.groep groepID
+                              ,prj.groep_id groepID
+                              ,pjg.groep
                               ,tyd.tijdsduur
                               ,tyd.id as tijdID
+
+
                         from weekdag wkd
                         
                         join tijdschrijven_abonnement abm
@@ -128,6 +137,9 @@ class GeschrevenTijd(models.Model):
                           
                         join tijdschrijven_project prj
                           on abm.project_id = prj.id
+
+                        join tijdschrijven_projectgroep pjg
+                          on prj.groep_id = pjg.id
 
                         join tijdschrijven_project_activiteit pac
                           on abm.project_id = pac.project_id
@@ -137,13 +149,14 @@ class GeschrevenTijd(models.Model):
 
                         join tijdschrijven_persoon prs
                           on abm.persoon_id = prs.id
-                         and prs.user_id = %s 
+                         and prs.user_id = %s
 
                         left join tijdschrijven_geschreventijd tyd
                           on tyd.persoon_id = prs.id
+                         and tyd.projectactiviteit_id = pac.id
                          and tyd.datum = wkd.datum
                         
-                        order by prj.groep
+                        order by prj.groep_id
                                 ,prj.id
                                 ,pac.id
                                 ,wkd.datum
@@ -180,3 +193,18 @@ class GeschrevenTijd(models.Model):
 
 class Datumtabel(models.Model):
     datum = models.DateField()
+
+# cte vervangen door datumtabel
+# select wkd.datum
+# ,abm.id as abonnementID
+# 	  , case 
+# 					when STRFTIME('%w',wkd.datum)='0' then 7
+# 					else STRFTIME('%w',wkd.datum)
+# 				 end as id	 
+#  from tijdschrijven_datumtabel wkd 
+ 
+#                         join tijdschrijven_abonnement abm
+#                           on 1=1
+ 
+# where wkd.datum >= '2021-01-04'
+#   and wkd.datum < date('2021-01-04','+7 day')
