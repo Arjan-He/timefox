@@ -1,0 +1,72 @@
+/* input number, get rid of arrows
+   Firefox */
+   input[type=number] {
+    -moz-appearance: textfield;
+  }
+  
+  .ts-tablediv{
+      overflow-x:auto;
+  }
+  
+  .ts-tabletimefox {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  
+  .ts-tabletimefox thead tr {
+      border-bottom: 1px solid #66b3ff;
+      background-color: #cce6ff;
+  }
+  
+  .ts-tabletimefox tfoot tr {
+      border-top: 1px solid #66b3ff;
+      background-color: #cce6ff;
+  }
+  
+  .ts-headtitle{
+      width:52%;
+      text-align: left;
+  }
+  
+  
+  .ts-headdow, .ts-headtotaal{
+      width:6%;
+  }
+  
+  .ts-rijactiviteit{
+      display:none; 
+  }
+  
+  .ts-groeptitle{
+      text-transform: uppercase;
+  }
+
+  .ts-projecttitle{
+      font-weight:600;
+      text-indent:20px;
+      border-bottom: 1px solid #f2f2f2;
+  }
+  .ts-activiteittitel {
+      text-indent:40px;
+  }
+  
+  .ts-gridcell{
+      border: 1px solid #a6a6a6;
+  }
+  
+  .ts-urenvak{
+      width:95%;
+      height:24px;
+      text-align: center;
+      outline: none !important;
+      background-color: #fff;
+      box-shadow: none;
+      border:0;
+  }
+  
+  .ts-dagtotaal, .ts-eindtotaal{
+      color: black;
+      background-color: #cce6ff;
+      font-weight: 600;
+  }
