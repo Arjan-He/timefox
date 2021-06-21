@@ -46,7 +46,7 @@ $(function() {
         let thedisplay = $(firstActID).css('display');
         
         //hide alle activiteiten
-        $('.ts-rijactiviteit').hide(100);
+        $('.ts-rijactiviteit').hide(300);
     
         //alle activiteiten hebben een class p-{hunprojectid}
         let allProjectAct = '.p-'+projectID
