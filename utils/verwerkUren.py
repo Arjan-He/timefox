@@ -4,10 +4,6 @@ from tijdschrijven.models import GeschrevenTijd, Project_Activiteit,Persoon
 
 def walkTheGrid(formfields,usr):
 
-    velden = []
-    token = True
-    date = []
-
     for row in formfields:
 
         # deel de naam van het formfield op naar een array
