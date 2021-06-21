@@ -25,7 +25,7 @@
 
 <input type="text" id="weekPicker" value="{{ datum }}">
 
-<table class="table" id="tijdgrid">
+<table class="ts-tableProjecten" id="tijdgrid">
 
 
     {# first the header and footer #}
@@ -105,17 +105,14 @@
           {% endifchanged %}
 
           <td class='ts-gridcell' style='padding:0'>
-            <input class="ts-urenvak" 
-                  type="number" 
-                  min="0"
-                  max="24"
-                  step="0.01"
-                  id="{{ i.projectactiviteitID }}-{{ forloop.counter0 }}" 
-                  abonnementdag = "{{ i.projectactiviteitID }}"
-                  dagnummer = "{{ i.id }}"
-                  name="cell_{{ i.projectactiviteitID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum|date:'Y-m-d' }}"
-                  originalvalue="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}"
-                  value="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}">
+            <input type="number" 
+                name="cell_{{ i.projectactiviteitID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum|date:'Y-m-d' }}" 
+                class="ts-urenvak" 
+                min="0"
+                max="24"
+                step="0.01"
+                originalvalue="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}"
+                value="{% if i.tijdsduur == None %}{% else %}{{ i.tijdsduur }}{% endif %}">
           </td>
 
           {% if forloop.last %}
@@ -123,7 +120,6 @@
           {% endif %}
 
     {% endfor %}
-
 
     </tbody>
     </table>
@@ -134,8 +130,5 @@
 
 </form>
 
-{% for form in formSetGrid %}
-<div>form</div>
-{% endfor %}
 
 {% endblock %}
