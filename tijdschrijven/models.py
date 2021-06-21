@@ -163,11 +163,6 @@ class GeschrevenTijd(models.Model):
                 '''
         return GeschrevenTijd.objects.raw(query, [datum, prs])
 
-                            #   ,lag(prj.groep) OVER (ORDER BY prj.groep
-                            #                                 ,prj.id
-                            #                                 ,act.id
-                            #                                 ,wkd.datum
-                            #                         ) as groepIDvorig
 
     def __str__(self):
         """String for representing the Model object."""
