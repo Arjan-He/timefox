@@ -4,8 +4,6 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from utils import dateFunctions
-from .forms import frmGridCell
-from django.forms import formset_factory
 # import datetime
 from datetime import date
 from utils import verwerkUren
@@ -20,16 +18,10 @@ def index(request):
 
 @login_required
 def projecten(request):
-    projecten = Project.objects.all()
-
-    parents = projectFuncties.geefProjectParents(15)
-    children = projectFuncties.geefProjectChildren(15)
-
-    context = {'projecten': projecten,
-               'children': children,
-               'parents': parents, }
+    projecten = Abonnement.objects.filter(persoon=request.user.id).values('id','project__titel','project__omschrijving','project__geldigvan','project__geldigtot')
+    projecten_dict = {'projecten': projecten}
     # Render the HTML template index.html with the data in the context variable
-    return render(request, 'projecten.html', context=context)
+    return render(request, 'projecten.html',context = projecten_dict )
 
 
 class ProjectCreate(CreateView):
@@ -83,7 +75,7 @@ def urenschrijven(request):
         if request.POST['weeknummer']:
             weeknummer = request.POST['weeknummer'].split('week:')
             weeknummer = [x.strip() for x in weeknummer]
-            datum, datum2 = dateFunctions.getDateRangeFromWeek(weeknummer[0], weeknummer[1])
+            datum = dateFunctions.getDateRangeFromWeek(weeknummer[0], weeknummer[1])
 
     eerstedagweek = dateFunctions.fdow(datum)
     # laatstedagweek = dateFunctions.ldow(datum)
@@ -91,16 +83,12 @@ def urenschrijven(request):
     # datumsinweek = GeschrevenTijd.datumsinweek(eerstedagweek)
     tijdgrid = GeschrevenTijd.tijdoverzicht(eerstedagweek.isoformat()[0:10], request.user.id)
 
-    gridFormSet = formset_factory(frmGridCell, extra=0)
-    formSetGrid = gridFormSet(initial=tijdgrid)
-
     # argument=2: de eerste twee letters van de dagen
     dagenInWeek = dateFunctions.daysInWeek(2)
 
     context = {'dagenindeweek': dagenInWeek,
                'tijdgrid': tijdgrid,
                'datum': datum.isoformat()[0:10],
-               'formSetGrid':formSetGrid,
                }
 
     return render(request, 'urenschrijven.html', context=context)
