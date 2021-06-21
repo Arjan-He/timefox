@@ -33,76 +33,71 @@ body {
     font-family:sans-serif;
 }
 
-/* input number, get rid of arrows
-   Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
 .ts-tablediv{
     overflow-x:auto;
+    width: 70%;
+    margin:0 auto;
 }
 
-.ts-tabletimefox {
-  width: 100%;
-  border-collapse: collapse;
+/* input number, get rid of arrows
+   Firefox */
+   input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+.ts-tableProjecten {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-
-.ts-tabletimefox thead tr {
-    border-bottom: 1px solid #66b3ff;
-    background-color: #cce6ff;
+.ts-tableProjecten thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: center;
 }
 
-.ts-tabletimefox tfoot tr {
-    border-top: 1px solid #66b3ff;
-    background-color: #cce6ff;
+.ts-tableProjecten th,
+.ts-tableProjecten td {
+    padding: 12px 15px;
 }
 
-.ts-headtitle{
-    width:52%;
-    text-align: left;
+.ts-tableProjecten tbody tr {
+    border-bottom: 1px solid #dddddd;
 }
 
-
-.ts-headdow, .ts-headtotaal{
-    width:6%;
+.ts-tableProjecten tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
 }
 
-.ts-rijactiviteit{
-    display:none; 
+.ts-tableProjecten tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
 }
 
-.ts-projecttitle{
-    font-weight:500;
-    padding-left: 10px;
-    border-bottom: 1px solid #f2f2f2;
-}
-.ts-activiteittitel {
-    padding-left: 30px;
-}
-
-.ts-gridcell{
-    border: 1px solid #a6a6a6;
+.ts-tableProjecten tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
 }
 
 .ts-urenvak{
-    width:95%;
-    height:24px;
+    width:60px;
     text-align: center;
+}
+
+.ts-totaal {
     outline: none !important;
-    background-color: #fff;
+    background-color: transparent;
     box-shadow: none;
     border:0;
 }
 
-.ts-dagtotaal, .ts-eindtotaal{
-    color: black;
-    background-color: #cce6ff;
-    font-weight: 600;
+.ts-headtitle{
+    width:45%;
+    text-align: left;
 }
-
-
 
 </style>
 
@@ -110,7 +105,8 @@ input[type=number] {
 <body>
 
 <div class='ts-tablediv'>
-<table class='ts-tabletimefox'>
+
+<table class='ts-tableProjecten'>
     <thead>
         <tr>
             <th class="ts-headtitle">Project</th>
@@ -126,7 +122,7 @@ input[type=number] {
     </thead>
     <tfoot>
         <tr>
-            <th class='ts-totaal'>Totaal</th>
+            <th class='ts-totaal ts-projecttitle'>Totaal</th>
             
             <th class='ts-totaal'><input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="0" disabled></th>
             <th class='ts-totaal'><input type='number' class="ts-urenvak ts-totaal ts-dagtotaal" weekdag="1" disabled></th>
