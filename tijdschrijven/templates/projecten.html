@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Overzicht projecten</h1>
+  <h1>Projectenoverzicht</h1>
   <a href="project/create/">Project toevoegen</a>
   <table class="table">
     <thead class="thead-light">
@@ -17,6 +17,8 @@
         <th scope="col">Omschrijving</th>
         <th scope="col">Aanmaker</th>
         <th scope="col">Actief</th>
+        <th scope="col">Start</th>
+        <th scope="col">Eind</th>
         <th scope="col"> </th>
         <th scope="col"> </th>
       </tr>
@@ -25,10 +27,12 @@
   {% for project in projecten %}
   <tr>
     <th scope="row">{{project.id}}</th>
-    <td>{{project.Titel}}</td>
-    <td>{{project.Omschrijving}}</td>
-    <td>{{project.AanmakerID}}</td>
-    <td>{{project.Actief}}</td>
+    <td>{{project.project__titel}}</td>
+    <td>{{project.project__omschrijving}}</td>
+    <td>{{project.aanmaker}}</td>
+    <td>{{project.actief}}</td>
+    <td>{{project.project__geldigvan|date:'Y-m-d'}}</td>
+    <td>{{project.project__geldigtot|date:'Y-m-d'}}</td>
     
     <td><a href="project/{{project.id}}/update/">
         <object data="{% static 'images/update.svg' %}" type='image/svg+xml'></object>
@@ -42,37 +46,6 @@
 </tbody>
 </table>
 <a href="project/create/">Project toevoegen</a>
-
-
-<!--Testen van cte tree op projecten -->
-<table>
-
-  <tr>
-    <th>Titel</th>
-    <th>Identificatie</th>
-    <th>Parent identificatie</th>
-    <th>Diepte</th>
-  </tr>
-
-  {% for i in parents %}
-  <tr>
-    <td>{{ i.Titel }}</td>
-    <td>{{ i.id }}</td>
-    <td>{{ i.ParentID_id }}</td>
-    <td>{{ i.depth }}</td>
-  </tr>
-  {% endfor %}
-
-  {% for i in children %}
-  <tr>
-    <td>{{ i.Titel }}</td>
-    <td>{{ i.id }}</td>
-    <td>{{ i.ParentID_id }}</td>
-    <td>{{ i.depth }}</td>
-  </tr>
-  {% endfor %}
-
-</table>
 
 
 {% endblock %}
