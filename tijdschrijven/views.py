@@ -75,7 +75,7 @@ def urenschrijven(request):
         if request.POST['weeknummer']:
             weeknummer = request.POST['weeknummer'].split('week:')
             weeknummer = [x.strip() for x in weeknummer]
-            datum = dateFunctions.getDateRangeFromWeek(weeknummer[0], weeknummer[1])
+            datum = dateFunctions.getDateRangeFromWeek(weeknummer[0], weeknummer[1])[0]
 
     eerstedagweek = dateFunctions.fdow(datum)
     # laatstedagweek = dateFunctions.ldow(datum)

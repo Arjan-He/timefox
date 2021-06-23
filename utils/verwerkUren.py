@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from tijdschrijven.models import GeschrevenTijd, Project_Activiteit,Persoon
+from tijdschrijven.models import GeschrevenTijd, Project_Activiteit, Persoon
 
 
-def walkTheGrid(formfields,usr):
+def walkTheGrid(formfields, usr):
 
     for row in formfields:
 
@@ -16,13 +16,12 @@ def walkTheGrid(formfields,usr):
             x.append(formfields[row])
 
             # en evalueer het in de functie schrijfUrenNaarDb
-            schrijfUrenNaarDb(x,usr)
+            schrijfUrenNaarDb(x, usr)
             
     return True
 
 
-
-def schrijfUrenNaarDb(urenArray,usr):
+def schrijfUrenNaarDb(urenArray, usr):
 
     tijdID = int(urenArray[2])
     tijd = urenArray[4].strip()
