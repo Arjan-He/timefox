@@ -51,9 +51,12 @@ $(function() {
         //alle activiteiten hebben een class p-{hunprojectid}
         let allProjectAct = '.p-'+projectID
 
+        $('.ts-projectarrow').html('&#9656;');
+
         //en toggle alle activiteiten van het geklikte project
         if(thedisplay=='none'){
             $(allProjectAct).css('display','table-row');
+            $(this).find('.ts-projectarrow').html('&#9652;');
         }else{
             $(allProjectAct).css('display','none');
         }

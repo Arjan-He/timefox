@@ -18,12 +18,14 @@
 
 {% block content %}
 
-<h1>Tijdschrijven</h1>
 
 <form method="POST" id='formGrid' action="{% url 'urenschrijven' %}">
   {% csrf_token %}
 
-<input type="text" id="weekPicker" value="{{ datum }}">
+<div style='margin-top:25px;' class='container-fluid'>
+    <input type="text" id="weekPicker" value="{{ datum }}">
+    <input type="submit" name='saveGrid' value="Submit" class='ts-submit'>
+</div>
 
 <table class="ts-tableProjecten" id="tijdgrid">
 
@@ -40,15 +42,15 @@
     </thead>
 
     <tfoot>
-      <tr>
+      <tr class='ts-rijeindtotaal'>
         <th class='ts-totaal'>Totaal</th>
         {% for day in dagenindeweek %}
         <th class='ts-totaal'>
-          <input type='number' class="ts-urenvak ts-dagtotaal" weekdag="{{ forloop.counter0 }}" disabled>
+          <input type='number' class="ts-urenvak ts-dagtotaal ts-inputtotaal" weekdag="{{ forloop.counter0 }}" disabled>
         </th>
         {% endfor %}
         <th class='ts-totaal'>
-          <input type='number' class="ts-urenvak ts-eindtotaal" disabled>
+          <input type='number' class="ts-urenvak ts-eindtotaal ts-inputtotaal" disabled>
         </th>
       </tr>
     </tfoot>
@@ -65,19 +67,6 @@
           {% endifchanged %}
 
           {% ifchanged i.groepID %}
-          {% if not forloop.first %}
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-          {% endif %}
             <tr>
               <td class='ts-groeptitle'>{{ i.groep }}</td>
               {% for day in dagenindeweek %}
@@ -89,12 +78,12 @@
 
           {% ifchanged i.projectID %}
             <tr id='p-{{ i.projectID }}''>
-            <td class='ts-projecttitle'>{{ i.titel }}</td>
+            <td class='ts-projecttitle'> <span class='ts-projectarrow'>&#9656;</span> {{ i.titel }}</td>
             {% for day in dagenindeweek %}
               <td></td>
             {% endfor %}
             <td class='ts-totaal'>
-                <input type="number" class="ts-urenvak ts-abonnementtotaal" abonnement="14" disabled>
+                <input type="number" class="ts-urenvak ts-inputtotaal" abonnement="14" disabled>
             </td>
             </tr>
           {% endifchanged %}
@@ -104,7 +93,7 @@
               <td class='ts-activiteittitel'>{{ i.activiteit }}</td>
           {% endifchanged %}
 
-          <td class='ts-gridcell' style='padding:0'>
+          <td class='ts-gridcell'>
             <input type="number" 
                 name="cell_{{ i.projectactiviteitID }}_{% if i.tijdID == None %}0{% else %}{{ i.tijdID }}{% endif %}_{{ i.datum|date:'Y-m-d' }}" 
                 class="ts-urenvak" 
@@ -125,8 +114,9 @@
     </table>
 
 
-
-    <input type="submit" name='saveGrid' value="Submit">
+    <div class='container-fluid'>
+        <input type="submit" name='saveGrid' value="Submit" class='ts-submit'>
+    </div>
 
 </form>
 

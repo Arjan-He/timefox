@@ -17,19 +17,8 @@ a object{
     pointer-events: none;
 }
 
-.sidebar-nav {
-    margin-top: 20px;
-    padding: 0;
-    list-style: none;
-}
 
 /* TIMEWRITETABLE */
-
-.ts-tablediv{
-    overflow-x:auto;
-    width: 70%;
-    margin:0 auto;
-}
 
 /* input number, get rid of arrows
    Firefox */
@@ -39,10 +28,13 @@ a object{
 
 .ts-tableProjecten {
     border-collapse: collapse;
-    margin: 25px 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: 1140px;
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -65,13 +57,18 @@ a object{
     border-bottom: 1px solid #dddddd;
 }
 
+/* 
 .ts-tableProjecten tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
+} */
+
+.ts-rijeindtotaal{
+    border-top: 2px solid #009879;
 }
 
-.ts-tableProjecten tbody tr:last-of-type {
+/* .ts-tableProjecten tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
-}
+} */
 
 .ts-tableProjecten tbody tr.active-row {
     font-weight: bold;
@@ -97,6 +94,43 @@ a object{
 
 .ts-rijactiviteit{
     display:none; 
+    background-color: #f3f3f3;
+}
+
+.ts-projecttitle{
+    text-indent:20px;
+    cursor:pointer;
+}
+
+.ts-activiteittitel{
+    text-indent:40px;
+}
+
+.ts-inputtotaal{
+    text-align: center;
+    outline: none !important;
+    background-color: #fff;
+    box-shadow: none;
+    border:0;
+}
+
+.ts-projectarrow{
+    color:#808080;
+}
+
+.ts-gridcell{
+    padding:5px;
+}
+
+.ts-submit{
+    background-color: #009879;
+    border:none;
+    color: white;
+    padding:8px 32px;
+    text-decoration: none;
+    cursor:pointer;
+    float:right;
+    margin-bottom: 25px;
 }
 
   /* TIMEWRITETABLE */ 
