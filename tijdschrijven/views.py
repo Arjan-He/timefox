@@ -18,10 +18,17 @@ def index(request):
 
 @login_required
 def projecten(request):
-    projecten = Abonnement.objects.filter(persoon=request.user.id).values('id','project__titel','project__omschrijving','project__geldigvan','project__geldigtot')
+    projecten = Abonnement.objects.filter(persoon=request.user.id).values('id', 'project__titel', 'project__omschrijving', 'project__geldigvan', 'project__geldigtot')
     projecten_dict = {'projecten': projecten}
     # Render the HTML template index.html with the data in the context variable
-    return render(request, 'projecten.html',context = projecten_dict )
+    return render(request, 'projecten.html', context=projecten_dict)
+
+@login_required
+def abonnementen(request):
+    abonnementen = Abonnement.objects.filter(persoon=request.user.id, zichtbaarheid=True).values('id', 'actief', 'project__groep', 'project__titel', 'project__omschrijving')
+    context = {'abonnementen': abonnementen}
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'abonnementen.html', context)
 
 
 class ProjectCreate(CreateView):
@@ -47,12 +54,6 @@ class ProjectUpdate(UpdateView):
 class ProjectDelete(DeleteView):
     model = Project
     success_url = reverse_lazy('projecten')
-
-
-def abonnementen(request):
-    abonnementen = Abonnement.objects.all()
-    context = {'abonnementen': abonnementen, }
-    return render(request, 'abonnement.html', context=context)
 
 
 class AbonnementCreate(CreateView):

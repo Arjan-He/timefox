@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}<title>TimeFox - Abonnementen</title>{% endblock %}
+
+
+{% block content %}
+<h1>Overzicht Abonnementen</h1>
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Actief</th>
+      <th scope="col">Groep</th>
+      <th scope="col">Titel</th>
+      <th scope="col">Omschrijving</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    
+        
+    {% for abonnement in abonnementen %}
+
+    <tr>
+
+        <td>{{abonnement.actief}}</td>
+        <td>{{abonnement.project__groep}}</td>
+        <td>{{abonnement.project__titel}}</td>
+        <td>{{abonnement.project__omschrijving}}</td>
+    </tr>
+
+    {% endfor %}
+
+</tbody>
+</table>
+
+{% endblock %}
