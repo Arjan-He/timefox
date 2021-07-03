@@ -25,8 +25,17 @@ def projecten(request):
 
 @login_required
 def abonnementen(request):
-    abonnementen = Abonnement.objects.filter(persoon=request.user.id, zichtbaarheid=True).values('id', 'actief', 'project__groep', 'project__titel', 'project__omschrijving')
+    # Maak een dictionary van alle actieve projecten
+    abonnementen = Project.objects.filter(actief=True).values('id', 'groep__groep', 'titel', 'omschrijving').order_by('groep__groep', 'titel')
+    # Voeg daaraan een veld toe met een boolean of er een abonnement is
+    for abonnement in abonnementen:
+        if Abonnement.objects.filter(persoon=request.user.id, project=abonnement['id']).exists():
+            abonnement['abo']=True
+        else:
+            abonnement['abo']=False
+    
     context = {'abonnementen': abonnementen}
+    print(abonnementen)
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'abonnementen.html', context)
 
