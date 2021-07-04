@@ -3,8 +3,11 @@
 
 
 {% block content %}
-<h1>Overzicht Abonnementen</h1>
-
+<div class="col-12">
+  <h1>Overzicht Abonnementen</h1>
+</div>
+<div>
+<form>
 <table class="table">
   <thead class="thead-light">
     <tr>
@@ -21,8 +24,11 @@
     {% for abonnement in abonnementen %}
 
     <tr>
-
-        <td>{{abonnement.abo}}</td>
+        {% if abonnement.abo %}
+        <td><input type="checkbox" class="form-check-input position-static" id="exampleCheck1" project="{{abonnement.id}}" changed="False" checked></td>
+        {% else  %}
+        <td><input type="checkbox" class="form-check-input position-static" id="exampleCheck1" project="{{abonnement.id}}" changed="False"></td>
+        {% endif %}
         <td>{{abonnement.groep__groep}}</td>
         <td>{{abonnement.titel}}</td>
         <td>{{abonnement.omschrijving}}</td>
@@ -32,5 +38,10 @@
 
 </tbody>
 </table>
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
 
 {% endblock %}
+
+

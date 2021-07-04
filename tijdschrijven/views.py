@@ -35,7 +35,7 @@ def abonnementen(request):
             abonnement['abo']=False
     
     context = {'abonnementen': abonnementen}
-    print(abonnementen)
+    # DEBUG CODE print(abonnementen)
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'abonnementen.html', context)
 
